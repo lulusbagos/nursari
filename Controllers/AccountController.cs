@@ -35,9 +35,9 @@ namespace Nursari.Controllers
                 return View();
             }
 
-            // Find user (case-insensitive for username or no_nik)
+            // Find user (case-insensitive for username or no_nik via SQL Server collation)
             var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.Username.ToLower() == email.ToLower() || u.NoNik.ToLower() == email.ToLower());
+                .FirstOrDefaultAsync(u => u.Username == email || u.NoNik == email);
 
             if (user == null || user.Password != password)
             {
