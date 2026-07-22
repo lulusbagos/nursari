@@ -1,0 +1,99 @@
+@model Nursari.Models.Monitoring
+@{
+    ViewData["Title"] = "Input Data Monitoring Pertumbuhan";
+}
+
+<div class="view-header">
+    <div class="view-title-wrap">
+        <h1>Input Data Monitoring Pertumbuhan</h1>
+        <p>Pencatatan perkembangan tinggi, diameter, dan kesehatan tanaman bibit</p>
+    </div>
+    <div>
+        <a class="btn btn-login" asp-action="Monitoring" style="background: var(--text-light); color: white; display: inline-flex; align-items: center; gap: 5px;">
+            <i class="fa-solid fa-arrow-left"></i> Kembali
+        </a>
+    </div>
+</div>
+
+<div class="dashboard-card col-8" style="margin: 0 auto; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-radius: 12px; border: 1px solid var(--border-color); overflow: hidden;">
+    <div class="card-header" style="background: linear-gradient(135deg, var(--primary-green), #10b981); color: white; padding: 20px;">
+        <span class="card-title" style="color: white; font-weight: bold;"><i class="fa-solid fa-chart-line"></i> Form Parameter Pertumbuhan</span>
+    </div>
+
+    <form asp-action="CreateMonitoring" method="post" style="padding: 25px; display: flex; flex-direction: column; gap: 20px;">
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+            <!-- Batch Number Selection -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="BatchNumber" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Pilih Batch Bibit <span style="color: red;">*</span></label>
+                <select id="BatchNumber" asp-for="BatchNumber" class="form-control" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;">
+                    <option value="">-- Pilih Batch --</option>
+                    @if (ViewBag.Inventories != null)
+                    {
+                        foreach (var item in ViewBag.Inventories)
+                        {
+                            <option value="@item.BatchNumber">@item.BatchNumber (Tinggi: @item.Height cm, Stok: @item.CurrentQuantity)</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <!-- Monitoring Date -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="MonitoringDate" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Tanggal Monitoring <span style="color: red;">*</span></label>
+                <input type="date" id="MonitoringDate" asp-for="MonitoringDate" class="form-control" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;" />
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+            <!-- Height -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="Height" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Tinggi Bibit (cm) <span style="color: red;">*</span></label>
+                <input type="number" step="0.1" id="Height" asp-for="Height" class="form-control" min="0" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;" />
+            </div>
+
+            <!-- Diameter -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="Diameter" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Diameter Batang (mm) <span style="color: red;">*</span></label>
+                <input type="text" id="Diameter" asp-for="Diameter" class="form-control" placeholder="Contoh: 5.2" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;" />
+            </div>
+
+            <!-- Health Score -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="HealthScore" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Skor Kesehatan (0-100) <span style="color: red;">*</span></label>
+                <input type="number" id="HealthScore" asp-for="HealthScore" class="form-control" min="0" max="100" placeholder="85" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;" />
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+            <!-- Leaf Condition -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="LeafCondition" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Kondisi Daun <span style="color: red;">*</span></label>
+                <select id="LeafCondition" asp-for="LeafCondition" class="form-control" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;">
+                    <option value="Excellent">Sangat Subur (Excellent)</option>
+                    <option value="Healthy" selected>Sehat (Healthy)</option>
+                    <option value="Yellowish">Menguning (Yellowish)</option>
+                    <option value="Pest Attack">Terserang Hama (Pest Attack)</option>
+                    <option value="Dry">Kering / Gugur (Dry)</option>
+                </select>
+            </div>
+
+            <!-- Photo URL (Optional) -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="Photo" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Tautan Foto Tanaman (Opsional)</label>
+                <input type="text" id="Photo" asp-for="Photo" class="form-control" placeholder="https://..." style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;" />
+            </div>
+        </div>
+
+        <!-- Notes -->
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label for="Notes" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Catatan Pengamatan</label>
+            <textarea id="Notes" asp-for="Notes" class="form-control" rows="3" placeholder="Tulis catatan detail mengenai pertumbuhan bibit..." style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px; font-family: inherit; resize: vertical;"></textarea>
+        </div>
+
+        <!-- Buttons -->
+        <div style="display: flex; justify-content: flex-end; gap: 15px; border-top: 1px solid var(--border-color); padding-top: 20px; margin-top: 10px;">
+            <a class="btn" asp-action="Monitoring" style="background: #ef4444; color: white;">Batal</a>
+            <button type="submit" class="btn btn-primary">Simpan Pengamatan</button>
+        </div>
+    </form>
+</div>

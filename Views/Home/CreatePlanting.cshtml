@@ -1,0 +1,103 @@
+@model Nursari.Models.Planting
+@{
+    ViewData["Title"] = "Input Pengeluaran Bibit (Planting)";
+}
+
+<div class="view-header">
+    <div class="view-title-wrap">
+        <h1>Input Pengeluaran Bibit (Planting)</h1>
+        <p>Pencatatan penyaluran bibit ke lokasi blok penanaman reklamasi tambang</p>
+    </div>
+    <div>
+        <a class="btn btn-login" asp-action="Planting" style="background: var(--text-light); color: white; display: inline-flex; align-items: center; gap: 5px;">
+            <i class="fa-solid fa-arrow-left"></i> Kembali
+        </a>
+    </div>
+</div>
+
+<div class="dashboard-card col-8" style="margin: 0 auto; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-radius: 12px; border: 1px solid var(--border-color); overflow: hidden;">
+    <div class="card-header" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; padding: 20px;">
+        <span class="card-title" style="color: white; font-weight: bold;"><i class="fa-solid fa-tree"></i> Form Penyaluran Bibit Tanam</span>
+    </div>
+
+    <form asp-action="CreatePlanting" method="post" style="padding: 25px; display: flex; flex-direction: column; gap: 20px;">
+        <div asp-validation-summary="ModelOnly" style="color: red; font-size: 13px; font-weight: bold;"></div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+            <!-- Planting Number -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="PlantingNumber" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Nomor Referensi Penanaman <span style="color: red;">*</span></label>
+                <input type="text" id="PlantingNumber" asp-for="PlantingNumber" class="form-control" placeholder="Contoh: PLN-202607-001" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px; font-family: monospace;" />
+            </div>
+
+            <!-- Date -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="Date" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Tanggal Penanaman <span style="color: red;">*</span></label>
+                <input type="date" id="Date" asp-for="Date" class="form-control" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;" />
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+            <!-- Batch Number Selection -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="Batch" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Pilih Batch Sumber Bibit <span style="color: red;">*</span></label>
+                <select id="Batch" asp-for="Batch" class="form-control" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;">
+                    <option value="">-- Pilih Batch --</option>
+                    @if (ViewBag.Inventories != null)
+                    {
+                        foreach (var item in ViewBag.Inventories)
+                        {
+                            <option value="@item.BatchNumber">@item.BatchNumber (Tersedia: @item.CurrentQuantity)</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <!-- Planting Area selection -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="PlantingAreaId" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Lokasi Blok Reklamasi <span style="color: red;">*</span></label>
+                <select id="PlantingAreaId" asp-for="PlantingAreaId" class="form-control" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;">
+                    <option value="">-- Pilih Area Blok --</option>
+                    @if (ViewBag.PlantingAreas != null)
+                    {
+                        foreach (var item in ViewBag.PlantingAreas)
+                        {
+                            <option value="@item.Id">@item.Name (@item.Code) - Luas: @item.Size Ha</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+            <!-- Quantity -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="Quantity" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Jumlah Bibit yang Dikeluarkan <span style="color: red;">*</span></label>
+                <input type="number" id="Quantity" asp-for="Quantity" class="form-control" placeholder="0" min="1" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;" />
+            </div>
+
+            <!-- PIC -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="Pic" style="font-size: 13px; font-weight: 600; color: var(--text-main);">PIC Lapangan <span style="color: red;">*</span></label>
+                <input type="text" id="Pic" asp-for="Pic" class="form-control" placeholder="Nama pengawas lapangan" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;" />
+            </div>
+
+            <!-- Coordinates -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="Coordinates" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Koordinat Tanam (Opsional)</label>
+                <input type="text" id="Coordinates" asp-for="Coordinates" class="form-control" placeholder="Contoh: -0.9837, 117.4937" style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;" />
+            </div>
+        </div>
+
+        <!-- Status -->
+        <input type="hidden" asp-for="Status" value="Completed" />
+
+        <!-- Buttons -->
+        <div style="display: flex; justify-content: flex-end; gap: 15px; border-top: 1px solid var(--border-color); padding-top: 20px; margin-top: 10px;">
+            <a class="btn" asp-action="Planting" style="background: #ef4444; color: white;">Batal</a>
+            <button type="submit" class="btn btn-primary" style="background: var(--info-blue); border-color: var(--info-blue);">
+                <i class="fa-solid fa-tree"></i> Catat Penanaman (Out)
+            </button>
+        </div>
+    </form>
+</div>

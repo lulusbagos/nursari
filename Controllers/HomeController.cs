@@ -303,6 +303,239 @@ namespace Nursari.Controllers
             return View(model);
         }
 
+        // --- 1. Growth Monitoring ---
+        [HttpGet]
+        public async Task<IActionResult> CreateMonitoring()
+        {
+            ViewBag.Inventories = await _context.Inventories.Where(i => i.CurrentQuantity > 0).ToListAsync();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateMonitoring(Monitoring model)
+        {
+            if (model == null) return BadRequest();
+            model.Id = Guid.NewGuid().ToString("N");
+            _context.Monitorings.Add(model);
+
+            var inv = await _context.Inventories.FirstOrDefaultAsync(i => i.BatchNumber == model.BatchNumber);
+            if (inv != null)
+            {
+                inv.Height = model.Height;
+            }
+
+            var audit = new AuditTrail
+            {
+                Id = Guid.NewGuid().ToString("N"),
+                User = User.Identity?.Name ?? "System",
+                Module = "Monitoring",
+                Activity = "Create",
+                BeforeValue = "",
+                AfterValue = $"Batch: {model.BatchNumber}, Height: {model.Height}",
+                Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+            };
+            _context.AuditTrails.Add(audit);
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Monitoring");
+        }
+
+        // --- 2. Mortality Records ---
+        [HttpGet]
+        public async Task<IActionResult> CreateMortality()
+        {
+            ViewBag.Inventories = await _context.Inventories.Where(i => i.CurrentQuantity > 0).ToListAsync();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateMortality(Mortality model)
+        {
+            if (model == null) return BadRequest();
+            model.Id = Guid.NewGuid().ToString("N");
+
+            var inv = await _context.Inventories.FirstOrDefaultAsync(i => i.BatchNumber == model.Batch);
+            if (inv == null)
+            {
+                ModelState.AddModelError("", "Batch Number tidak valid atau tidak ditemukan.");
+                ViewBag.Inventories = await _context.Inventories.Where(i => i.CurrentQuantity > 0).ToListAsync();
+                return View(model);
+            }
+
+            if (inv.CurrentQuantity < model.QuantityDead)
+            {
+                ModelState.AddModelError("", "Jumlah bibit mati tidak boleh melebihi stok aktual.");
+                ViewBag.Inventories = await _context.Inventories.Where(i => i.CurrentQuantity > 0).ToListAsync();
+                return View(model);
+            }
+
+            inv.CurrentQuantity -= model.QuantityDead;
+            _context.Mortalities.Add(model);
+
+            var ledger = new Ledger
+            {
+                Id = Guid.NewGuid().ToString("N"),
+                TransactionNumber = "TRX-MORT-" + DateTime.Now.ToString("yyyyMMdd-HHmmss"),
+                Date = model.Date,
+                Batch = model.Batch,
+                Type = "Mortality",
+                QtyIn = 0,
+                QtyOut = model.QuantityDead,
+                Balance = inv.CurrentQuantity,
+                Remarks = $"Penyusutan bibit mati: {model.Cause}"
+            };
+            _context.Ledgers.Add(ledger);
+
+            var audit = new AuditTrail
+            {
+                Id = Guid.NewGuid().ToString("N"),
+                User = User.Identity?.Name ?? "System",
+                Module = "Mortality",
+                Activity = "Create",
+                BeforeValue = "",
+                AfterValue = $"Batch: {model.Batch}, QtyDead: {model.QuantityDead}",
+                Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+            };
+            _context.AuditTrails.Add(audit);
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Mortality");
+        }
+
+        // --- 3. Planting Log ---
+        [HttpGet]
+        public async Task<IActionResult> CreatePlanting()
+        {
+            ViewBag.Inventories = await _context.Inventories.Where(i => i.CurrentQuantity > 0).ToListAsync();
+            ViewBag.PlantingAreas = await _context.PlantingAreas.ToListAsync();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreatePlanting(Planting model)
+        {
+            if (model == null) return BadRequest();
+            model.Id = Guid.NewGuid().ToString("N");
+            if (string.IsNullOrEmpty(model.Status)) model.Status = "Completed";
+
+            var inv = await _context.Inventories.FirstOrDefaultAsync(i => i.BatchNumber == model.Batch);
+            if (inv == null)
+            {
+                ModelState.AddModelError("", "Batch Number tidak valid atau tidak ditemukan.");
+                ViewBag.Inventories = await _context.Inventories.Where(i => i.CurrentQuantity > 0).ToListAsync();
+                ViewBag.PlantingAreas = await _context.PlantingAreas.ToListAsync();
+                return View(model);
+            }
+
+            if (inv.CurrentQuantity < model.Quantity)
+            {
+                ModelState.AddModelError("", "Jumlah bibit ditanam tidak boleh melebihi stok aktual.");
+                ViewBag.Inventories = await _context.Inventories.Where(i => i.CurrentQuantity > 0).ToListAsync();
+                ViewBag.PlantingAreas = await _context.PlantingAreas.ToListAsync();
+                return View(model);
+            }
+
+            inv.CurrentQuantity -= model.Quantity;
+            _context.Plantings.Add(model);
+
+            var ledger = new Ledger
+            {
+                Id = Guid.NewGuid().ToString("N"),
+                TransactionNumber = "TRX-PLN-" + DateTime.Now.ToString("yyyyMMdd-HHmmss"),
+                Date = model.Date,
+                Batch = model.Batch,
+                Type = "Planting",
+                QtyIn = 0,
+                QtyOut = model.Quantity,
+                Balance = inv.CurrentQuantity,
+                Remarks = $"Penyaluran bibit ke area penanaman {model.PlantingAreaId}"
+            };
+            _context.Ledgers.Add(ledger);
+
+            var audit = new AuditTrail
+            {
+                Id = Guid.NewGuid().ToString("N"),
+                User = User.Identity?.Name ?? "System",
+                Module = "Planting",
+                Activity = "Create",
+                BeforeValue = "",
+                AfterValue = $"Batch: {model.Batch}, Qty: {model.Quantity}, Area: {model.PlantingAreaId}",
+                Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+            };
+            _context.AuditTrails.Add(audit);
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Planting");
+        }
+
+        // --- 4. Survival Analysis ---
+        [HttpGet]
+        public async Task<IActionResult> CreateSurvival()
+        {
+            ViewBag.Plantings = await _context.Plantings.ToListAsync();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateSurvival(Survival model)
+        {
+            if (model == null) return BadRequest();
+            model.Id = Guid.NewGuid().ToString("N");
+
+            int total = model.LiveSeedlings + model.DeadSeedlings;
+            model.SurvivalRate = total > 0 ? Math.Round((double)model.LiveSeedlings / total * 100, 2) : 0.0;
+
+            _context.Survivals.Add(model);
+
+            var audit = new AuditTrail
+            {
+                Id = Guid.NewGuid().ToString("N"),
+                User = User.Identity?.Name ?? "System",
+                Module = "Survival",
+                Activity = "Create",
+                BeforeValue = "",
+                AfterValue = $"PLN Ref: {model.PlantingNumber}, Rate: {model.SurvivalRate}%",
+                Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+            };
+            _context.AuditTrails.Add(audit);
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Survival");
+        }
+
+        // --- 5. Reclamation Targets ---
+        [HttpGet]
+        public IActionResult CreateReclamation()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateReclamation(Reclamation model)
+        {
+            if (model == null) return BadRequest();
+            model.Id = Guid.NewGuid().ToString("N");
+
+            model.CompletionRate = model.TargetSeedlings > 0 ? Math.Round((double)model.ActualSeedlings / model.TargetSeedlings * 100, 2) : 0.0;
+
+            _context.Reclamations.Add(model);
+
+            var audit = new AuditTrail
+            {
+                Id = Guid.NewGuid().ToString("N"),
+                User = User.Identity?.Name ?? "System",
+                Module = "Reclamation",
+                Activity = "Create",
+                BeforeValue = "",
+                AfterValue = $"Area: {model.ReclamationArea}, Target: {model.TargetSeedlings}",
+                Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+            };
+            _context.AuditTrails.Add(audit);
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Reclamation");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

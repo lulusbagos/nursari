@@ -1,0 +1,77 @@
+@model Nursari.Models.Mortality
+@{
+    ViewData["Title"] = "Catat Penyusutan Bibit Mati";
+}
+
+<div class="view-header">
+    <div class="view-title-wrap">
+        <h1>Catat Penyusutan Bibit Mati</h1>
+        <p>Pencatatan bibit mati untuk memperbarui stok aktual dan penyesuaian buku besar</p>
+    </div>
+    <div>
+        <a class="btn btn-login" asp-action="Mortality" style="background: var(--text-light); color: white; display: inline-flex; align-items: center; gap: 5px;">
+            <i class="fa-solid fa-arrow-left"></i> Kembali
+        </a>
+    </div>
+</div>
+
+<div class="dashboard-card col-8" style="margin: 0 auto; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-radius: 12px; border: 1px solid var(--border-color); overflow: hidden;">
+    <div class="card-header" style="background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; padding: 20px;">
+        <span class="card-title" style="color: white; font-weight: bold;"><i class="fa-solid fa-skull"></i> Form Laporan Bibit Mati (Mortality)</span>
+    </div>
+
+    <form asp-action="CreateMortality" method="post" style="padding: 25px; display: flex; flex-direction: column; gap: 20px;">
+        <div asp-validation-summary="ModelOnly" style="color: red; font-size: 13px; font-weight: bold;"></div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+            <!-- Batch Number Selection -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="Batch" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Pilih Batch Bibit <span style="color: red;">*</span></label>
+                <select id="Batch" asp-for="Batch" class="form-control" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;">
+                    <option value="">-- Pilih Batch --</option>
+                    @if (ViewBag.Inventories != null)
+                    {
+                        foreach (var item in ViewBag.Inventories)
+                        {
+                            <option value="@item.BatchNumber">@item.BatchNumber (Stok Aktual: @item.CurrentQuantity)</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <!-- Date -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="Date" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Tanggal Kejadian <span style="color: red;">*</span></label>
+                <input type="date" id="Date" asp-for="Date" class="form-control" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;" />
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+            <!-- Quantity Dead -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="QuantityDead" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Jumlah Bibit Mati <span style="color: red;">*</span></label>
+                <input type="number" id="QuantityDead" asp-for="QuantityDead" class="form-control" placeholder="0" min="1" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;" />
+            </div>
+
+            <!-- Cause -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="Cause" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Penyebab Kematian <span style="color: red;">*</span></label>
+                <select id="Cause" asp-for="Cause" class="form-control" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;">
+                    <option value="Disease">Penyakit / Layu Jamur</option>
+                    <option value="Heat Stress">Stres Suhu Panas / Kekeringan</option>
+                    <option value="Pest Attack">Terserang Hama Ulat/Serangga</option>
+                    <option value="Waterlogging">Busuk Akar akibat Genangan Air</option>
+                    <option value="Physical Damage">Kerusakan Fisik saat Pemindahan</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div style="display: flex; justify-content: flex-end; gap: 15px; border-top: 1px solid var(--border-color); padding-top: 20px; margin-top: 10px;">
+            <a class="btn" asp-action="Mortality" style="background: #6b7280; color: white;">Batal</a>
+            <button type="submit" class="btn" style="background: #ef4444; color: white; display: inline-flex; align-items: center; gap: 5px;">
+                <i class="fa-solid fa-skull"></i> Laporkan Penyusutan
+            </button>
+        </div>
+    </form>
+</div>
