@@ -1,0 +1,57 @@
+@model List<Nursari.Models.Planting>
+@{
+    ViewData["Title"] = "Planting Log";
+}
+
+<div class="view-header">
+    <div class="view-title-wrap">
+        <h1>Planting Log</h1>
+        <p>Log harian aktivitas penanaman bibit di lokasi blok reklamasi tambang</p>
+    </div>
+</div>
+
+<div class="dashboard-card col-12">
+    <div class="card-header">
+        <span class="card-title">Daftar Aktivitas Penanaman Reklamasi</span>
+    </div>
+    <div class="table-wrapper">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Tiket Tanam No</th>
+                    <th>Tanggal</th>
+                    <th>Batch ID</th>
+                    <th>Area Blok</th>
+                    <th style="text-align: right;">Jumlah Ditanam</th>
+                    <th>PIC Pelaksana</th>
+                    <th>Koordinat Lokasi</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="font-weight: 600; font-family: monospace;">@item.PlantingNumber</td>
+                        <td>@item.Date</td>
+                        <td style="font-family: monospace;">@item.Batch</td>
+                        <td>@item.PlantingAreaId</td>
+                        <td style="text-align: right; font-weight: bold; color: var(--primary-green);">@item.Quantity.ToString("N0")</td>
+                        <td>@item.Pic</td>
+                        <td style="font-family: monospace; font-size: 11px;">@item.Coordinates</td>
+                        <td>
+                            @if (item.Status == "Completed" || item.Status == "Selesai")
+                            {
+                                <span class="badge green">Selesai</span>
+                            }
+                            else
+                            {
+                                <span class="badge yellow">@item.Status</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

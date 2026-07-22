@@ -1,0 +1,188 @@
+@model Nursari.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Executive Dashboard";
+}
+
+<!-- KPI SUMMARY GRID -->
+<div class="kpi-grid">
+    <div class="kpi-card">
+        <div class="kpi-icon-wrap" style="background: rgba(16, 185, 129, 0.1); color: var(--success-green);">
+            <i class="fa-solid fa-leaf"></i>
+        </div>
+        <div class="kpi-info">
+            <span class="kpi-val">@Model.TotalSeedlings.ToString("N0")</span>
+            <span class="kpi-label">Active Seedlings in Stock</span>
+        </div>
+    </div>
+    
+    <div class="kpi-card">
+        <div class="kpi-icon-wrap" style="background: rgba(59, 130, 246, 0.1); color: var(--info-blue);">
+            <i class="fa-solid fa-truck-ramp-box"></i>
+        </div>
+        <div class="kpi-info">
+            <span class="kpi-val">@Model.TotalDispatched.ToString("N0")</span>
+            <span class="kpi-label">Dispatched to Reclamation</span>
+        </div>
+    </div>
+    
+    <div class="kpi-card">
+        <div class="kpi-icon-wrap" style="background: rgba(245, 158, 11, 0.1); color: var(--warning-yellow);">
+            <i class="fa-solid fa-percent"></i>
+        </div>
+        <div class="kpi-info">
+            <span class="kpi-val">@Model.AvgSurvivalRate.ToString("F1")%</span>
+            <span class="kpi-label">Average Survival Index</span>
+        </div>
+    </div>
+    
+    <div class="kpi-card">
+        <div class="kpi-icon-wrap" style="background: rgba(239, 68, 68, 0.1); color: var(--critical-red);">
+            <i class="fa-solid fa-mountain"></i>
+        </div>
+        <div class="kpi-info">
+            <span class="kpi-val">@Model.ReclamationCompletionRate.ToString("F1")%</span>
+            <span class="kpi-label">Reclamation Progress Rate</span>
+        </div>
+    </div>
+</div>
+
+<!-- CHARTS AND SECONDARY SUMMARY GRID -->
+<div class="dashboard-grid" style="margin-top: 20px;">
+    <!-- Line Chart for nursery activities -->
+    <div class="dashboard-card col-8">
+        <div class="card-header">
+            <span class="card-title">Nursery Activities & Reclamation Dispatches (2026)</span>
+        </div>
+        <div class="chart-container" style="position: relative; height:320px; width:100%;">
+            <canvas id="activities-chart-canvas"></canvas>
+        </div>
+    </div>
+
+    <!-- Species breakdown and Block Survival summaries -->
+    <div class="dashboard-card col-4">
+        <div class="card-header">
+            <span class="card-title">Top 5 Species Distribution</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 15px; padding-top: 10px;">
+            @foreach (var species in Model.SpeciesSummaries)
+            {
+                <div>
+                    <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; margin-bottom: 5px;">
+                        <span>@species.SpeciesName</span>
+                        <span>@species.Count.ToString("N0") (@species.Percentage%)</span>
+                    </div>
+                    <div style="height: 8px; width: 100%; background: var(--border-color); border-radius: 4px; overflow: hidden;">
+                        <div style="height: 100%; width: @species.Percentage%; background: var(--primary-green); border-radius: 4px;"></div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-grid" style="margin-top: 20px;">
+    <div class="dashboard-card col-6">
+        <div class="card-header">
+            <span class="card-title">Top Reclamation Blocks (By Survival Index)</span>
+        </div>
+        <div class="table-wrapper" style="margin-top: 10px;">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Reclamation Block</th>
+                        <th style="text-align: right;">Survival Rate (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var block in Model.BlockSurvivals)
+                    {
+                        <tr>
+                            <td>@block.BlockName</td>
+                            <td style="text-align: right; font-weight: bold; color: @(block.Rate >= 90 ? "var(--success-green)" : "var(--warning-yellow)")">
+                                @block.Rate.ToString("F1")%
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="dashboard-card col-6">
+        <div class="card-header">
+            <span class="card-title">System Status & Quick Actions</span>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px; padding: 15px 0;">
+            <p style="font-size: 13px; color: var(--text-light); line-height: 1.5;">
+                Sistem terhubung ke database lokal SQLite. Data sinkronisasi awal dimuat secara real-time. Anda memiliki hak akses penuh sebagai <strong>@User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value</strong>.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+                <a class="btn btn-primary" asp-action="Inventory" style="display: inline-flex; align-items: center; gap: 5px;">
+                    <i class="fa-solid fa-boxes-stacked"></i> Lihat Inventori
+                </a>
+                <a class="btn btn-login" asp-action="Ledger" style="display: inline-flex; align-items: center; gap: 5px; background: var(--info-blue);">
+                    <i class="fa-solid fa-list-check"></i> Transaksi Buku Besar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch("/Home/GetDashboardChartData")
+                .then(res => res.json())
+                .then(data => {
+                    const ctx = document.getElementById('activities-chart-canvas').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: data.labels,
+                            datasets: [
+                                {
+                                    label: 'Bibit Diterima (In)',
+                                    data: data.received,
+                                    backgroundColor: 'rgba(16, 185, 129, 0.7)',
+                                    borderColor: 'var(--success-green)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'Bibit Ditanam (Out)',
+                                    data: data.planted,
+                                    backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                                    borderColor: 'var(--info-blue)',
+                                    borderWidth: 1
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: {
+                                        color: 'rgba(200, 200, 200, 0.1)'
+                                    }
+                                },
+                                x: {
+                                    grid: {
+                                        display: false
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        color: getComputedStyle(document.documentElement).getPropertyValue('--text-main').trim()
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+        });
+    </script>
+}

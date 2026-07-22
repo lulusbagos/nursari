@@ -1,0 +1,61 @@
+@model List<Nursari.Models.Monitoring>
+@{
+    ViewData["Title"] = "Growth Monitoring";
+}
+
+<div class="view-header">
+    <div class="view-title-wrap">
+        <h1>Growth Monitoring</h1>
+        <p>Pemantauan rutin parameter pertumbuhan bibit di bedengan</p>
+    </div>
+</div>
+
+<div class="dashboard-card col-12">
+    <div class="card-header">
+        <span class="card-title">Log Pemantauan Pertumbuhan</span>
+    </div>
+    <div class="table-wrapper">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Tgl Monitoring</th>
+                    <th>Batch Number</th>
+                    <th style="text-align: right;">Tinggi (cm)</th>
+                    <th style="text-align: right;">Diameter (mm)</th>
+                    <th>Kondisi Daun</th>
+                    <th style="text-align: right;">Health Score</th>
+                    <th>Catatan</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.MonitoringDate</td>
+                        <td style="font-weight: 600; font-family: monospace;">@item.BatchNumber</td>
+                        <td style="text-align: right;">@item.Height.ToString("F1")</td>
+                        <td style="text-align: right;">@item.Diameter</td>
+                        <td>
+                            @if (item.LeafCondition == "Excellent" || item.LeafCondition == "Healthy")
+                            {
+                                <span class="badge green">@item.LeafCondition</span>
+                            }
+                            else if (item.LeafCondition == "Pest Attack" || item.LeafCondition == "Yellowish")
+                            {
+                                <span class="badge red">@item.LeafCondition</span>
+                            }
+                            else
+                            {
+                                <span class="badge gray">@item.LeafCondition</span>
+                            }
+                        </td>
+                        <td style="text-align: right; font-weight: bold; color: @(item.HealthScore >= 80 ? "var(--success-green)" : "var(--critical-red)")">
+                            @item.HealthScore
+                        </td>
+                        <td style="font-size: 12px; color: var(--text-light);">@item.Notes</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

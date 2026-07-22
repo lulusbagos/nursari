@@ -1,0 +1,53 @@
+@model List<Nursari.Models.Mortality>
+@{
+    ViewData["Title"] = "Mortality Records";
+}
+
+<div class="view-header">
+    <div class="view-title-wrap">
+        <h1>Mortality Records</h1>
+        <p>Catatan bibit mati di area bedengan nurseri</p>
+    </div>
+</div>
+
+<div class="dashboard-card col-12">
+    <div class="card-header">
+        <span class="card-title">Daftar Bibit Mati Terlaporkan</span>
+    </div>
+    <div class="table-wrapper">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Tanggal</th>
+                    <th>Batch ID</th>
+                    <th style="text-align: right;">Jumlah Mati (-)</th>
+                    <th>Penyebab</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Date</td>
+                        <td style="font-weight: 600; font-family: monospace;">@item.Batch</td>
+                        <td style="text-align: right; color: var(--critical-red); font-weight: bold;">@item.QuantityDead.ToString("N0")</td>
+                        <td>
+                            @if (item.Cause == "Disease" || item.Cause == "Layu / Jamur")
+                            {
+                                <span class="badge red">Penyakit / Jamur</span>
+                            }
+                            else if (item.Cause == "Heat Stress" || item.Cause == "Kekeringan")
+                            {
+                                <span class="badge yellow">Stres Panas / Kering</span>
+                            }
+                            else
+                            {
+                                <span class="badge gray">@item.Cause</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

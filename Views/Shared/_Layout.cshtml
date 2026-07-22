@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Enterprise Nursery System</title>
+    
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Sidebar backdrop overlay (mobile only) -->
+    <div class="sidebar-backdrop" id="sidebar-backdrop-overlay"></div>
+
+    <!-- MAIN SYSTEM WRAPPER -->
+    <div id="app-container">
+        
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fa-solid fa-seedling" style="color: var(--success-green);"></i>
+                    <span>NURSERY SYS</span>
+                </div>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-label">Main Core</div>
+                <a class="menu-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")" asp-controller="Home" asp-action="Index">
+                    <i class="fa-solid fa-chart-line"></i> Executive Dashboard
+                </a>
+                
+                <div class="menu-label">Operations</div>
+                <a class="menu-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Inventory" ? "active" : "")" asp-controller="Home" asp-action="Inventory">
+                    <i class="fa-solid fa-warehouse"></i> Seedling Inventory
+                </a>
+                <a class="menu-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Ledger" ? "active" : "")" asp-controller="Home" asp-action="Ledger">
+                    <i class="fa-solid fa-list-ol"></i> Transaction Ledger
+                </a>
+                <a class="menu-item @(ViewContext.RouteData.Values["action"]?.ToString() == "NurseryMap" ? "active" : "")" asp-controller="Home" asp-action="NurseryMap">
+                    <i class="fa-solid fa-map-location-dot"></i> Visual Plot Map
+                </a>
+                <a class="menu-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Monitoring" ? "active" : "")" asp-controller="Home" asp-action="Monitoring">
+                    <i class="fa-solid fa-gauge-high"></i> Growth Monitoring
+                </a>
+                <a class="menu-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Mortality" ? "active" : "")" asp-controller="Home" asp-action="Mortality">
+                    <i class="fa-solid fa-skull-crossbones"></i> Mortality Records
+                </a>
+                
+                <div class="menu-label">Planning & ESG</div>
+                <a class="menu-item @(ViewContext.RouteData.Values["action"]?.ToString() == "StockOpname" ? "active" : "")" asp-controller="Home" asp-action="StockOpname">
+                    <i class="fa-solid fa-clipboard-check"></i> Stock Opname
+                </a>
+                <a class="menu-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Planting" ? "active" : "")" asp-controller="Home" asp-action="Planting">
+                    <i class="fa-solid fa-route"></i> Planting Log
+                </a>
+                <a class="menu-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Survival" ? "active" : "")" asp-controller="Home" asp-action="Survival">
+                    <i class="fa-solid fa-percent"></i> Survival Analysis
+                </a>
+                <a class="menu-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Reclamation" ? "active" : "")" asp-controller="Home" asp-action="Reclamation">
+                    <i class="fa-solid fa-mountain"></i> Reclamation Targets
+                </a>
+                
+                <div class="menu-label">Reports & Config</div>
+                <a class="menu-item @(ViewContext.RouteData.Values["action"]?.ToString() == "MasterData" ? "active" : "")" asp-controller="Home" asp-action="MasterData">
+                    <i class="fa-solid fa-database"></i> Master Registry
+                </a>
+                <a class="menu-item @(ViewContext.RouteData.Values["action"]?.ToString() == "UserManagement" ? "active" : "")" asp-controller="Home" asp-action="UserManagement">
+                    <i class="fa-solid fa-users-gear"></i> User Matrix
+                </a>
+                <a class="menu-item @(ViewContext.RouteData.Values["action"]?.ToString() == "AuditTrail" ? "active" : "")" asp-controller="Home" asp-action="AuditTrail">
+                    <i class="fa-solid fa-shield-halved"></i> Audit Trail
+                </a>
+            </div>
+            
+            <div class="sidebar-footer">
+                <i class="fa-solid fa-user-shield"></i>
+                <div style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    <span>@User.Identity?.Name (@(User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "Officer"))</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN RIGHT VIEW WRAPPER -->
+        <main class="main-wrapper">
+            
+            <!-- TOP NAVIGATION BAR -->
+            <nav class="navbar">
+                <div class="navbar-left">
+                    <div class="sidebar-toggle" id="sidebar-toggle-btn" style="display: none;">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                    <div class="breadcrumb">
+                        <span>Enterprise</span>
+                        <span class="breadcrumb-separator"><i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i></span>
+                        <span class="breadcrumb-current">@ViewData["Title"]</span>
+                    </div>
+                </div>
+                
+                <div class="navbar-right">
+                    <div class="nav-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="global-search-input" placeholder="Search batch, area, logs..." onkeyup="filterTableData()">
+                    </div>
+                    
+                    <div class="nav-actions">
+                        <!-- Theme Toggle -->
+                        <div class="action-icon" id="theme-toggle-btn" title="Toggle Dark/Light Mode">
+                            <i class="fa-solid fa-moon"></i>
+                        </div>
+                        
+                        <!-- Profile dropdown -->
+                        <div class="user-profile-nav" id="profile-menu-nav">
+                            <div class="user-avatar">
+                                @(User.Identity?.Name != null && User.Identity.Name.Length > 1 ? User.Identity.Name.Substring(0, 2).ToUpper() : "AD")
+                            </div>
+                            <div class="user-info">
+                                <span class="user-name">@User.Identity?.Name</span>
+                                <span class="user-role">@(User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "Officer")</span>
+                            </div>
+                            <a asp-controller="Account" asp-action="Logout" class="action-icon" style="color: var(--critical-red); margin-left: 10px;" title="Logout Session">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- MAIN BODY CONTAINER -->
+            <div class="content-body">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <!-- Core Layout JS -->
+    <script>
+        // Toggle Sidebar on mobile
+        const sidebarToggle = document.getElementById("sidebar-toggle-btn");
+        const backdrop = document.getElementById("sidebar-backdrop-overlay");
+
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener("click", () => {
+                document.body.classList.toggle("sidebar-open");
+            });
+        }
+
+        if (backdrop) {
+            backdrop.addEventListener("click", () => {
+                document.body.classList.remove("sidebar-open");
+            });
+        }
+
+        // Theme Toggle logic
+        const themeBtn = document.getElementById("theme-toggle-btn");
+        const currentTheme = localStorage.getItem("nursery-theme") || "light";
+        document.documentElement.setAttribute("data-theme", currentTheme);
+        updateThemeIcon(currentTheme);
+
+        themeBtn.addEventListener("click", () => {
+            const activeTheme = document.documentElement.getAttribute("data-theme");
+            const newTheme = activeTheme === "dark" ? "light" : "dark";
+            document.documentElement.setAttribute("data-theme", newTheme);
+            localStorage.setItem("nursery-theme", newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            const icon = themeBtn.querySelector("i");
+            if (theme === "dark") {
+                icon.className = "fa-solid fa-sun";
+            } else {
+                icon.className = "fa-solid fa-moon";
+            }
+        }
+
+        // Global search helper
+        function filterTableData() {
+            const input = document.getElementById("global-search-input");
+            const filter = input.value.toLowerCase();
+            const table = document.querySelector("table.custom-table");
+            if (!table) return;
+
+            const rows = table.getElementsByTagName("tr");
+            for (let i = 1; i < rows.length; i++) {
+                let showRow = false;
+                const cells = rows[i].getElementsByTagName("td");
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j].innerText.toLowerCase().indexOf(filter) > -1) {
+                        showRow = true;
+                        break;
+                    }
+                }
+                rows[i].style.display = showRow ? "" : "none";
+            }
+        }
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

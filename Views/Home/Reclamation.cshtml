@@ -1,0 +1,47 @@
+@model List<Nursari.Models.Reclamation>
+@{
+    ViewData["Title"] = "Reclamation Targets";
+}
+
+<div class="view-header">
+    <div class="view-title-wrap">
+        <h1>Reclamation Targets</h1>
+        <p>Capaian realisasi vs target penanaman reklamasi lahan tambang tahunan</p>
+    </div>
+</div>
+
+<div class="dashboard-card col-12">
+    <div class="card-header">
+        <span class="card-title">Daftar Target Reklamasi ESG</span>
+    </div>
+    <div class="table-wrapper">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Tahun</th>
+                    <th>Area Blok</th>
+                    <th style="text-align: right;">Luas Area (Ha)</th>
+                    <th style="text-align: right;">Target Bibit</th>
+                    <th style="text-align: right;">Realisasi Aktual</th>
+                    <th style="text-align: right;">Persentase Capaian (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var ratePercent = item.CompletionRate * 100;
+                    <tr>
+                        <td style="font-weight: bold;">@item.Year</td>
+                        <td>@item.ReclamationArea</td>
+                        <td style="text-align: right;">@item.AreaSize.ToString("F2")</td>
+                        <td style="text-align: right;">@item.TargetSeedlings.ToString("N0")</td>
+                        <td style="text-align: right; color: var(--info-blue); font-weight: bold;">@item.ActualSeedlings.ToString("N0")</td>
+                        <td style="text-align: right; font-weight: bold; color: @(ratePercent >= 100 ? "var(--success-green)" : "var(--warning-yellow)")">
+                            @ratePercent.ToString("F1")%
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

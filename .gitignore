@@ -1,0 +1,27 @@
+# .NET build artifacts
+bin/
+obj/
+
+# User configurations containing secrets
+appsettings.json
+appsettings.Development.json
+
+# Large media assets (video)
+*.mp4
+wwwroot/video_login.mp4
+video login.mp4
+
+# Databases
+*.db
+*.db-shm
+*.db-wal
+nursery.db
+
+# Excel data files (contains raw company data)
+*.xlsx
+DAILY NURSERY DAN REVEGETASI 2026.xlsx
+
+# Local user settings
+.vs/
+.vscode/
+*.user

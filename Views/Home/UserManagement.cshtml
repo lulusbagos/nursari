@@ -1,0 +1,66 @@
+@model List<Nursari.Models.User>
+@{
+    ViewData["Title"] = "User Matrix";
+}
+
+<div class="view-header">
+    <div class="view-title-wrap">
+        <h1>User Matrix</h1>
+        <p>Manajemen hak akses pengguna dan keamanan otorisasi sistem</p>
+    </div>
+</div>
+
+<div class="dashboard-card col-12">
+    <div class="card-header">
+        <span class="card-title">Daftar Pengguna Sistem</span>
+    </div>
+    <div class="table-wrapper">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>Nama</th>
+                    <th>NIK</th>
+                    <th>Username</th>
+                    <th>Hak Akses (Role)</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="font-weight: 600; font-family: monospace;">@item.Id</td>
+                        <td style="font-weight: bold;">@item.Name</td>
+                        <td style="font-family: monospace;">@item.NoNik</td>
+                        <td>@item.Username</td>
+                        <td>
+                            @if (item.Role == "Admin")
+                            {
+                                <span class="badge red">Admin</span>
+                            }
+                            else if (item.Role == "Supervisor")
+                            {
+                                <span class="badge blue">Supervisor</span>
+                            }
+                            else
+                            {
+                                <span class="badge gray">@item.Role</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.Status == "Active")
+                            {
+                                <span class="badge green">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge red">Inactive</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

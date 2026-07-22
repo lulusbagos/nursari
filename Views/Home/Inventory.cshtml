@@ -1,0 +1,70 @@
+@model List<Nursari.Models.InventoryItemViewModel>
+@{
+    ViewData["Title"] = "Seedling Inventory";
+}
+
+<div class="view-header">
+    <div class="view-title-wrap">
+        <h1>Seedling Inventory</h1>
+        <p>Manajemen batch bibit di area green house dan bedengan nurseri</p>
+    </div>
+    <div>
+        <button class="btn btn-primary" onclick="alert('Tambah Batch Baru\n\nOperasi ini dicatat ke dalam database SQLite secara terintegrasi.')">
+            <i class="fa-solid fa-plus"></i> Tambah Batch Bibit
+        </button>
+    </div>
+</div>
+
+<div class="dashboard-card col-12">
+    <div class="card-header">
+        <span class="card-title">Daftar Batch Inventori Aktif</span>
+    </div>
+    <div class="table-wrapper">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Batch Number</th>
+                    <th>Jenis Tanaman</th>
+                    <th>Supplier</th>
+                    <th>Tgl Terima</th>
+                    <th style="text-align: right;">Stok Awal</th>
+                    <th style="text-align: right;">Stok Aktual</th>
+                    <th style="text-align: right;">Umur (Bln)</th>
+                    <th style="text-align: right;">Tinggi (cm)</th>
+                    <th>Plot Area</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="font-weight: 600; font-family: monospace;">@item.BatchNumber</td>
+                        <td>@item.SeedlingTypeName</td>
+                        <td>@item.SupplierName</td>
+                        <td>@item.DateReceived</td>
+                        <td style="text-align: right;">@item.Quantity.ToString("N0")</td>
+                        <td style="text-align: right; font-weight: bold; color: var(--primary-green);">@item.CurrentQuantity.ToString("N0")</td>
+                        <td style="text-align: right;">@item.Age</td>
+                        <td style="text-align: right;">@item.Height</td>
+                        <td><span class="badge gray">@item.NurseryAreaName</span></td>
+                        <td>
+                            @if (item.Status == "Active" || item.Status == "Siap Tanam")
+                            {
+                                <span class="badge green">Active</span>
+                            }
+                            else if (item.Status == "Dead")
+                            {
+                                <span class="badge red">Dead</span>
+                            }
+                            else
+                            {
+                                <span class="badge yellow">@item.Status</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,55 @@
+@model List<Nursari.Models.Survival>
+@{
+    ViewData["Title"] = "Survival Analysis";
+}
+
+<div class="view-header">
+    <div class="view-title-wrap">
+        <h1>Survival Analysis</h1>
+        <p>ESG Environmental performance dashboard. Monitor indeks ketahanan hidup pasca-penanaman</p>
+    </div>
+</div>
+
+<div class="dashboard-card col-12">
+    <div class="card-header">
+        <span class="card-title">Daftar Hasil Audit Kelangsungan Hidup Tanaman</span>
+    </div>
+    <div class="table-wrapper">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Tanggal Audit</th>
+                    <th>Tiket Tanam No</th>
+                    <th style="text-align: right;">Tanaman Hidup</th>
+                    <th style="text-align: right;">Tanaman Mati</th>
+                    <th style="text-align: right;">Survival Rate (%)</th>
+                    <th>Status Indeks</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.MonitoringDate</td>
+                        <td style="font-weight: 600; font-family: monospace;">@item.PlantingNumber</td>
+                        <td style="text-align: right; color: var(--success-green); font-weight: bold;">@item.LiveSeedlings.ToString("N0")</td>
+                        <td style="text-align: right; color: var(--critical-red);">@item.DeadSeedlings.ToString("N0")</td>
+                        <td style="text-align: right; font-weight: bold; color: @(item.SurvivalRate >= 90 ? "var(--success-green)" : "var(--warning-yellow)")">
+                            @item.SurvivalRate.ToString("F2")%
+                        </td>
+                        <td>
+                            @if (item.SurvivalRate >= 90)
+                            {
+                                <span class="badge green">MEMENUHI ESG TARGET</span>
+                            }
+                            else
+                            {
+                                <span class="badge yellow">BUTUH RE-PLANTING</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

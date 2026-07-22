@@ -1,0 +1,61 @@
+@model List<Nursari.Models.StockOpname>
+@{
+    ViewData["Title"] = "Stock Opname";
+}
+
+<div class="view-header">
+    <div class="view-title-wrap">
+        <h1>Stock Opname</h1>
+        <p>Rekonsiliasi pencatatan stok sistem versus audit fisik lapangan</p>
+    </div>
+</div>
+
+<div class="dashboard-card col-12">
+    <div class="card-header">
+        <span class="card-title">Daftar Audit Stock Opname</span>
+    </div>
+    <div class="table-wrapper">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Ref Audit No</th>
+                    <th>Tgl Dibuat</th>
+                    <th>Tgl Selesai</th>
+                    <th>Batch ID</th>
+                    <th style="text-align: right;">Stok Sistem</th>
+                    <th style="text-align: right;">Stok Fisik</th>
+                    <th style="text-align: right;">Selisih (Variance)</th>
+                    <th>Dibuat Oleh</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="font-weight: 600; font-family: monospace;">@item.OpnameNumber</td>
+                        <td>@item.DateCreated</td>
+                        <td>@item.DateCompleted</td>
+                        <td style="font-family: monospace;">@item.BatchNumber</td>
+                        <td style="text-align: right;">@item.SystemQty.ToString("N0")</td>
+                        <td style="text-align: right;">@item.PhysicalQty.ToString("N0")</td>
+                        <td style="text-align: right; font-weight: bold; color: @(item.Variance == 0 ? "var(--success-green)" : "var(--critical-red)")">
+                            @item.Variance.ToString("N0")
+                        </td>
+                        <td>@item.CreatedBy</td>
+                        <td>
+                            @if (item.Status == "Approved")
+                            {
+                                <span class="badge green">Approved</span>
+                            }
+                            else
+                            {
+                                <span class="badge yellow">@item.Status</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

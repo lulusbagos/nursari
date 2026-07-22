@@ -1,0 +1,202 @@
+@{
+    ViewData["Title"] = "Master Registry";
+    var seedlingTypes = ViewBag.SeedlingTypes as List<Nursari.Models.SeedlingType> ?? new();
+    var suppliers = ViewBag.Suppliers as List<Nursari.Models.Supplier> ?? new();
+    var nurseryAreas = ViewBag.NurseryAreas as List<Nursari.Models.NurseryArea> ?? new();
+    var plantingAreas = ViewBag.PlantingAreas as List<Nursari.Models.PlantingArea> ?? new();
+}
+
+<div class="view-header">
+    <div class="view-title-wrap">
+        <h1>Master Registry</h1>
+        <p>Registri referensi data induk sistem operasional nurseri</p>
+    </div>
+</div>
+
+<style>
+    .tabs-nav {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 10px;
+        overflow-x: auto;
+    }
+    .tab-btn {
+        background: transparent;
+        border: none;
+        padding: 8px 16px;
+        cursor: pointer;
+        font-weight: 600;
+        color: var(--text-light);
+        border-radius: var(--border-radius-sm);
+        white-space: nowrap;
+    }
+    .tab-btn.active {
+        background: var(--primary-green-light);
+        color: var(--primary-green);
+    }
+    .tab-content {
+        display: none;
+    }
+    .tab-content.active {
+        display: block;
+    }
+</style>
+
+<div class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab('tab-types', this)">Jenis Tanaman</button>
+    <button class="tab-btn" onclick="switchTab('tab-suppliers', this)">Daftar Supplier</button>
+    <button class="tab-btn" onclick="switchTab('tab-plots', this)">Bedengan Nurseri</button>
+    <button class="tab-btn" onclick="switchTab('tab-blocks', this)">Blok Area Reklamasi</button>
+</div>
+
+<!-- Seedling Types Tab -->
+<div id="tab-types" class="tab-content active">
+    <div class="dashboard-card col-12">
+        <div class="card-header">
+            <span class="card-title">Registri Spesies & Jenis Tanaman</span>
+        </div>
+        <div class="table-wrapper">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Kode</th>
+                        <th>Nama Tanaman</th>
+                        <th>Kategori</th>
+                        <th>Nama Ilmiah (Latin)</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in seedlingTypes)
+                    {
+                        <tr>
+                            <td style="font-weight: bold; font-family: monospace;">@item.Code</td>
+                            <td>@item.Name</td>
+                            <td><span class="badge gray">@item.Category</span></td>
+                            <td style="font-style: italic;">@item.ScientificName</td>
+                            <td style="font-size: 12px; color: var(--text-light);">@item.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Suppliers Tab -->
+<div id="tab-suppliers" class="tab-content">
+    <div class="dashboard-card col-12">
+        <div class="card-header">
+            <span class="card-title">Mitra & Rekanan Supplier Bibit</span>
+        </div>
+        <div class="table-wrapper">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Nama Supplier</th>
+                        <th>Alamat</th>
+                        <th>Telepon</th>
+                        <th>Email</th>
+                        <th>PIC Kontak</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in suppliers)
+                    {
+                        <tr>
+                            <td style="font-weight: bold;">@item.Name</td>
+                            <td>@item.Address</td>
+                            <td>@item.Phone</td>
+                            <td>@item.Email</td>
+                            <td>@item.ContactPerson</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Nursery Areas Tab -->
+<div id="tab-plots" class="tab-content">
+    <div class="dashboard-card col-12">
+        <div class="card-header">
+            <span class="card-title">Lokasi Plot & Bedengan Penyemaian</span>
+        </div>
+        <div class="table-wrapper">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Kode Bedengan</th>
+                        <th>Nama Bedengan</th>
+                        <th style="text-align: right;">Kapasitas Maksimal</th>
+                        <th>Lokasi</th>
+                        <th>Keterangan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in nurseryAreas)
+                    {
+                        <tr>
+                            <td style="font-weight: bold; font-family: monospace;">@item.Code</td>
+                            <td>@item.Name</td>
+                            <td style="text-align: right;">@item.Capacity.ToString("N0")</td>
+                            <td>@item.Location</td>
+                            <td>@item.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Planting Areas Tab -->
+<div id="tab-blocks" class="tab-content">
+    <div class="dashboard-card col-12">
+        <div class="card-header">
+            <span class="card-title">Area Blok Penanaman Tambang</span>
+        </div>
+        <div class="table-wrapper">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Kode Blok</th>
+                        <th>Nama Blok</th>
+                        <th style="text-align: right;">Ukuran (Ha)</th>
+                        <th>Koordinat Geografis</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in plantingAreas)
+                    {
+                        <tr>
+                            <td style="font-weight: bold; font-family: monospace;">@item.Code</td>
+                            <td>@item.Name</td>
+                            <td style="text-align: right;">@item.Size.ToString("F2")</td>
+                            <td style="font-family: monospace;">@item.Coordinates</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function switchTab(tabId, btn) {
+        // Hide all contents
+        const contents = document.querySelectorAll('.tab-content');
+        contents.forEach(c => c.classList.remove('active'));
+
+        // Deactivate all buttons
+        const buttons = document.querySelectorAll('.tab-btn');
+        buttons.forEach(b => b.classList.remove('active'));
+
+        // Activate selected
+        document.getElementById(tabId).classList.add('active');
+        btn.classList.add('active');
+    }
+</script>

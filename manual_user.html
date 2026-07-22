@@ -1,0 +1,1959 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panduan Pengguna - Nursery ERP Indexim Coal Mining</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap');
+
+    :root {
+      --green: #166534;
+      --green-light: #22c55e;
+      --green-bg: #f0fdf4;
+      --green-border: #bbf7d0;
+      --accent: #15803d;
+      --dark: #0f172a;
+      --text: #1e293b;
+      --text-light: #64748b;
+      --border: #e2e8f0;
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --red: #dc2626;
+      --yellow: #d97706;
+      --blue: #1d4ed8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-size: 11pt;
+      color: var(--text);
+      background: #fff;
+      line-height: 1.6;
+    }
+
+    /* ========================= COVER PAGE ========================= */
+    .cover-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #064e3b 0%, #065f46 40%, #047857 70%, #15803d 100%);
+      color: white;
+      text-align: center;
+      padding: 60px 40px;
+      page-break-after: always;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover-page::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+    .cover-page::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -80px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+    .cover-logo {
+      font-size: 56px;
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+    .cover-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 38px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -1px;
+    }
+    .cover-subtitle {
+      font-size: 15px;
+      opacity: 0.8;
+      margin-bottom: 40px;
+      font-weight: 300;
+    }
+    .cover-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50px;
+      padding: 8px 24px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 50px;
+    }
+    .cover-divider {
+      width: 80px;
+      height: 3px;
+      background: rgba(255,255,255,0.4);
+      margin: 30px auto;
+      border-radius: 2px;
+    }
+    .cover-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      width: 100%;
+      max-width: 600px;
+      margin-top: 30px;
+    }
+    .cover-info-item {
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .cover-info-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      opacity: 0.7;
+      margin-bottom: 4px;
+    }
+    .cover-info-value {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .cover-warning {
+      position: absolute;
+      bottom: 30px;
+      font-size: 9px;
+      opacity: 0.5;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ========================= TOC PAGE ========================= */
+    .toc-page {
+      padding: 60px 70px;
+      page-break-after: always;
+    }
+    .page-section-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--green);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .toc-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: var(--dark);
+      margin-bottom: 40px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--green-border);
+    }
+    .toc-list {
+      list-style: none;
+    }
+    .toc-section-header {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--green);
+      font-weight: 700;
+      margin-top: 28px;
+      margin-bottom: 10px;
+    }
+    .toc-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+    .toc-item-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .toc-num {
+      width: 26px;
+      height: 26px;
+      background: var(--green-bg);
+      border: 1px solid var(--green-border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--green);
+      flex-shrink: 0;
+    }
+    .toc-item-text { font-size: 12px; font-weight: 500; }
+    .toc-item-sub { font-size: 11px; font-weight: 400; color: var(--text-light); padding-left: 38px; margin-top: 3px; }
+    .toc-page-num {
+      font-size: 11px;
+      color: var(--text-light);
+      font-variant-numeric: tabular-nums;
+      background: var(--bg);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    /* ========================= CONTENT PAGES ========================= */
+    .content-page {
+      padding: 50px 70px;
+    }
+
+    .module-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 2px solid var(--green-border);
+    }
+    .module-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--green), var(--green-light));
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: white;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(22, 101, 52, 0.3);
+    }
+    .module-header-text {}
+    .module-section-tag {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--green);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .module-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      color: var(--dark);
+      line-height: 1.2;
+    }
+    .module-desc {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .section-heading {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--dark);
+      margin: 28px 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-heading::before {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 16px;
+      background: var(--green-light);
+      border-radius: 2px;
+    }
+
+    /* Steps */
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .step-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .step-number {
+      width: 28px;
+      height: 28px;
+      background: var(--green);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .step-content { flex: 1; }
+    .step-title { font-weight: 600; font-size: 12px; margin-bottom: 3px; }
+    .step-desc { font-size: 11px; color: var(--text-light); line-height: 1.5; }
+
+    /* Info boxes */
+    .info-box {
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+    .info-box.tip {
+      background: #f0fdf4;
+      border-left: 4px solid #22c55e;
+    }
+    .info-box.warning {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+    }
+    .info-box.danger {
+      background: #fef2f2;
+      border-left: 4px solid #ef4444;
+    }
+    .info-box.info {
+      background: #eff6ff;
+      border-left: 4px solid #3b82f6;
+    }
+    .info-box-title {
+      font-weight: 700;
+      margin-bottom: 5px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .info-box.tip .info-box-title { color: #166534; }
+    .info-box.warning .info-box-title { color: #92400e; }
+    .info-box.danger .info-box-title { color: #991b1b; }
+    .info-box.info .info-box-title { color: #1e40af; }
+
+    /* Feature table */
+    .feature-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      margin: 16px 0;
+    }
+    .feature-table th {
+      background: var(--green);
+      color: white;
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .feature-table th:first-child { border-radius: 8px 0 0 0; }
+    .feature-table th:last-child { border-radius: 0 8px 0 0; }
+    .feature-table td {
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .feature-table tr:nth-child(even) td { background: var(--green-bg); }
+    .feature-table tr:last-child td:first-child { border-radius: 0 0 0 8px; }
+    .feature-table tr:last-child td:last-child { border-radius: 0 0 8px 0; }
+
+    /* Badge pills */
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 50px;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge.green { background: #dcfce7; color: #166534; }
+    .badge.red { background: #fee2e2; color: #991b1b; }
+    .badge.yellow { background: #fef9c3; color: #713f12; }
+    .badge.blue { background: #dbeafe; color: #1e40af; }
+    .badge.gray { background: #f1f5f9; color: #475569; }
+
+    /* Role table */
+    .role-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 10px;
+      margin: 16px 0;
+    }
+    .role-table th {
+      background: var(--dark);
+      color: white;
+      padding: 8px 10px;
+      text-align: center;
+      font-weight: 600;
+    }
+    .role-table th:first-child { text-align: left; }
+    .role-table td {
+      padding: 7px 10px;
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+    .role-table td:first-child { text-align: left; font-weight: 600; }
+    .role-table tr:nth-child(even) td { background: var(--bg); }
+    .check { color: #16a34a; font-size: 13px; }
+    .cross { color: #dc2626; font-size: 13px; }
+
+    /* Column layout */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 16px 0;
+    }
+
+    /* Field description list */
+    .field-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .field-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 11px;
+    }
+    .field-name {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 2px 8px;
+      font-family: monospace;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--green);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .field-desc { color: var(--text-light); line-height: 1.4; }
+
+    /* Page break */
+    .page-break { page-break-before: always; }
+
+    /* Footer */
+    .page-footer {
+      position: fixed;
+      bottom: 20px;
+      left: 70px;
+      right: 70px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 9px;
+      color: var(--text-light);
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+    }
+
+    /* Header strip */
+    .page-header-strip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 9px;
+      color: var(--text-light);
+      margin-bottom: 30px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .page-header-strip-dot {
+      width: 8px; height: 8px;
+      background: var(--green-light);
+      border-radius: 50%;
+    }
+
+    /* Shortcut pill */
+    .keyboard-key {
+      display: inline-block;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 7px;
+      font-size: 10px;
+      font-family: monospace;
+      color: var(--text);
+      margin: 0 2px;
+    }
+
+    /* Print styles */
+    @media print {
+      body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .cover-page, .toc-page { min-height: 100vh; }
+      .page-break { page-break-before: always; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ====================== COVER PAGE ====================== -->
+<div class="cover-page">
+  <div class="cover-logo">🌱</div>
+  <div class="cover-badge">Dokumen Resmi Internal</div>
+  <div class="cover-title">Panduan Pengguna<br>Sistem Nursery ERP</div>
+  <div class="cover-subtitle">Enterprise Nursery & Reclamation Management System<br>Indexim Coal Mining — Environmental Division</div>
+  <div class="cover-divider"></div>
+  <div style="font-size: 13px; opacity: 0.7; max-width: 500px; line-height: 1.7;">
+    Dokumen ini berisi panduan lengkap penggunaan seluruh modul sistem Nursery ERP, 
+    mulai dari login hingga pembuatan laporan ESG reklamasi lahan.
+  </div>
+  <div class="cover-info-grid">
+    <div class="cover-info-item">
+      <div class="cover-info-label">Versi Sistem</div>
+      <div class="cover-info-value">v2.0 — 2026</div>
+    </div>
+    <div class="cover-info-item">
+      <div class="cover-info-label">Total Modul</div>
+      <div class="cover-info-value">14 Modul</div>
+    </div>
+    <div class="cover-info-item">
+      <div class="cover-info-label">Bahasa</div>
+      <div class="cover-info-value">Indonesia</div>
+    </div>
+  </div>
+  <div class="cover-warning">DOKUMEN INTERNAL — TIDAK UNTUK DISEBARLUASKAN</div>
+</div>
+
+<!-- ====================== TABLE OF CONTENTS ====================== -->
+<div class="toc-page">
+  <div class="page-section-label">Daftar Isi</div>
+  <div class="toc-title">Isi Panduan Pengguna</div>
+
+  <ul class="toc-list">
+    <div class="toc-section-header">Pengenalan Sistem</div>
+    <li class="toc-item">
+      <div class="toc-item-left"><div class="toc-num">01</div><span class="toc-item-text">Gambaran Umum Sistem</span></div>
+      <span class="toc-page-num">3</span>
+    </li>
+    <li class="toc-item">
+      <div class="toc-item-left"><div class="toc-num">02</div><span class="toc-item-text">Login & Manajemen Sesi</span></div>
+      <span class="toc-page-num">4</span>
+    </li>
+    <li class="toc-item">
+      <div class="toc-item-left"><div class="toc-num">03</div><span class="toc-item-text">Navigasi & Antarmuka</span></div>
+      <span class="toc-page-num">5</span>
+    </li>
+
+    <div class="toc-section-header">Modul Inti Operasional</div>
+    <li class="toc-item">
+      <div class="toc-item-left"><div class="toc-num">04</div><span class="toc-item-text">Executive Dashboard</span></div>
+      <span class="toc-page-num">6</span>
+    </li>
+    <li class="toc-item">
+      <div class="toc-item-left"><div class="toc-num">05</div><span class="toc-item-text">Master Registry (Data Induk)</span></div>
+      <span class="toc-page-num">7</span>
+    </li>
+    <li class="toc-item">
+      <div class="toc-item-left"><div class="toc-num">06</div><span class="toc-item-text">Seedling Inventory (Inventori Bibit)</span></div>
+      <span class="toc-page-num">9</span>
+    </li>
+    <li class="toc-item">
+      <div class="toc-item-left"><div class="toc-num">07</div><span class="toc-item-text">Transaction Ledger (Buku Besar)</span></div>
+      <span class="toc-page-num">11</span>
+    </li>
+    <li class="toc-item">
+      <div class="toc-item-left"><div class="toc-num">08</div><span class="toc-item-text">Visual Plot Map (Peta Nurseri)</span></div>
+      <span class="toc-page-num">12</span>
+    </li>
+
+    <div class="toc-section-header">Modul Monitoring & ESG</div>
+    <li class="toc-item">
+      <div class="toc-item-left"><div class="toc-num">09</div><span class="toc-item-text">Growth Monitoring (Pemantauan Pertumbuhan)</span></div>
+      <span class="toc-page-num">13</span>
+    </li>
+    <li class="toc-item">
+      <div class="toc-item-left"><div class="toc-num">10</div><span class="toc-item-text">Mortality Records (Catatan Kematian Bibit)</span></div>
+      <span class="toc-page-num">14</span>
+    </li>
+    <li class="toc-item">
+      <div class="toc-item-left"><div class="toc-num">11</div><span class="toc-item-text">Stock Opname</span></div>
+      <span class="toc-page-num">15</span>
+    </li>
+    <li class="toc-item">
+      <div class="toc-item-left"><div class="toc-num">12</div><span class="toc-item-text">Planting Log (Log Penanaman)</span></div>
+      <span class="toc-page-num">16</span>
+    </li>
+    <li class="toc-item">
+      <div class="toc-item-left"><div class="toc-num">13</div><span class="toc-item-text">Survival Analysis (Analisis Ketahanan Hidup)</span></div>
+      <span class="toc-page-num">17</span>
+    </li>
+    <li class="toc-item">
+      <div class="toc-item-left"><div class="toc-num">14</div><span class="toc-item-text">Reclamation Targets (Target Reklamasi)</span></div>
+      <span class="toc-page-num">18</span>
+    </li>
+
+    <div class="toc-section-header">Laporan & Administrasi</div>
+    <li class="toc-item">
+      <div class="toc-item-left"><div class="toc-num">15</div><span class="toc-item-text">Report Center (Pusat Laporan)</span></div>
+      <span class="toc-page-num">19</span>
+    </li>
+    <li class="toc-item">
+      <div class="toc-item-left"><div class="toc-num">16</div><span class="toc-item-text">User Management (Manajemen Pengguna)</span></div>
+      <span class="toc-page-num">20</span>
+    </li>
+    <li class="toc-item">
+      <div class="toc-item-left"><div class="toc-num">17</div><span class="toc-item-text">Audit Trail (Jejak Aktivitas)</span></div>
+      <span class="toc-page-num">21</span>
+    </li>
+  </ul>
+</div>
+
+<!-- ====================== BAB 1: GAMBARAN UMUM ====================== -->
+<div class="content-page page-break">
+  <div class="page-header-strip">
+    <div class="page-header-strip-dot"></div>
+    Nursery ERP — Panduan Pengguna
+    <span style="margin-left: auto;">Bab 1: Gambaran Umum</span>
+  </div>
+
+  <div class="module-header">
+    <div class="module-icon">🌿</div>
+    <div class="module-header-text">
+      <div class="module-section-tag">Bab 01 — Pengenalan</div>
+      <div class="module-title">Gambaran Umum Sistem</div>
+      <div class="module-desc">Pengenalan platform Enterprise Nursery Management System milik Indexim Coal Mining</div>
+    </div>
+  </div>
+
+  <p style="font-size: 12px; line-height: 1.8; margin-bottom: 16px;">
+    <strong>Nursery ERP</strong> adalah sistem manajemen nurseri berbasis web yang dirancang khusus untuk mengelola seluruh operasi nurseri, 
+    monitoring bibit, dan pelaporan reklamasi lahan tambang batu bara Indexim Coal Mining. 
+    Sistem ini mengintegrasikan data dari proses penyapihan bibit, penanaman di lapangan, hingga pemantauan ESG (Environmental, Social, Governance).
+  </p>
+
+  <div class="section-heading">Tujuan Utama Sistem</div>
+  <div class="two-col">
+    <div class="info-box tip">
+      <div class="info-box-title">📦 Manajemen Inventori</div>
+      Memantau stok bibit secara real-time dari 73 batch dan 53 spesies tanaman pionir, sisipan, dan buah-buahan.
+    </div>
+    <div class="info-box info">
+      <div class="info-box-title">🌱 Monitoring ESG</div>
+      Melacak tingkat keberhasilan penanaman di 83 blok reklamasi dengan data survival rate dan audit lapangan.
+    </div>
+    <div class="info-box tip">
+      <div class="info-box-title">📊 Pelaporan Komprehensif</div>
+      Menghasilkan laporan operasional dan ESG yang dapat diekspor ke format CSV/Excel untuk keperluan pelaporan resmi.
+    </div>
+    <div class="info-box info">
+      <div class="info-box-title">🔐 Kontrol Akses RBAC</div>
+      Sistem keamanan berbasis peran memastikan setiap pengguna hanya bisa mengakses fitur sesuai tanggung jawabnya.
+    </div>
+  </div>
+
+  <div class="section-heading">Data Yang Tersedia di Sistem</div>
+  <table class="feature-table">
+    <thead>
+      <tr>
+        <th>Kategori Data</th>
+        <th>Jumlah Record</th>
+        <th>Sumber</th>
+        <th>Keterangan</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Spesies Bibit</strong></td>
+        <td><span class="badge green">53 Spesies</span></td>
+        <td>Excel 2026</td>
+        <td>Pionir, Sisipan, Buah-buahan</td>
+      </tr>
+      <tr>
+        <td><strong>Blok Reklamasi</strong></td>
+        <td><span class="badge green">83 Blok</span></td>
+        <td>Excel 2026</td>
+        <td>Dump block & planting areas</td>
+      </tr>
+      <tr>
+        <td><strong>Batch Inventori</strong></td>
+        <td><span class="badge blue">73 Batch</span></td>
+        <td>Excel 2026</td>
+        <td>Data stok bulanan 2026</td>
+      </tr>
+      <tr>
+        <td><strong>Transaksi Ledger</strong></td>
+        <td><span class="badge blue">859 Transaksi</span></td>
+        <td>Excel 2026</td>
+        <td>Penerimaan, penanaman, mortalitas</td>
+      </tr>
+      <tr>
+        <td><strong>Log Penanaman Harian</strong></td>
+        <td><span class="badge yellow">595 Record</span></td>
+        <td>Excel 2026</td>
+        <td>Data penanaman di lapangan</td>
+      </tr>
+      <tr>
+        <td><strong>Mortalitas Harian</strong></td>
+        <td><span class="badge red">177 Record</span></td>
+        <td>Excel 2026</td>
+        <td>Kematian bibit di nurseri</td>
+      </tr>
+      <tr>
+        <td><strong>Stock Opname Bulanan</strong></td>
+        <td><span class="badge gray">58 Record</span></td>
+        <td>Excel 2026</td>
+        <td>Sensus bulanan bedengan</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====================== BAB 2: LOGIN ====================== -->
+<div class="content-page page-break">
+  <div class="page-header-strip">
+    <div class="page-header-strip-dot"></div>
+    Nursery ERP — Panduan Pengguna
+    <span style="margin-left: auto;">Bab 2: Login & Sesi</span>
+  </div>
+
+  <div class="module-header">
+    <div class="module-icon">🔐</div>
+    <div class="module-header-text">
+      <div class="module-section-tag">Bab 02 — Autentikasi</div>
+      <div class="module-title">Login & Manajemen Sesi</div>
+      <div class="module-desc">Cara masuk ke sistem dan mengelola sesi pengguna dengan aman</div>
+    </div>
+  </div>
+
+  <div class="section-heading">Cara Login ke Sistem</div>
+  <div class="steps-list">
+    <div class="step-item">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <div class="step-title">Buka Aplikasi</div>
+        <div class="step-desc">Buka file <code>index.html</code> di browser, atau akses melalui server lokal yang telah dikonfigurasi. Halaman login akan muncul secara otomatis.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <div class="step-title">Masukkan Email & Password</div>
+        <div class="step-desc">Isi field <strong>Enterprise Email</strong> dan <strong>Password</strong>. Untuk akun default Administrator: Email: <strong>admin@indexim.com</strong> | Password: <strong>admin123</strong></div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <div class="step-title">Pilih "Remember Me" (Opsional)</div>
+        <div class="step-desc">Centang opsi <em>Remember Me</em> agar email tersimpan di browser. Sesi akan disimpan di localStorage dan tidak hilang saat browser ditutup.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">4</div>
+      <div class="step-content">
+        <div class="step-title">Klik "Authenticate SECURE"</div>
+        <div class="step-desc">Klik tombol login. Jika berhasil, sistem akan menampilkan notifikasi selamat datang dan langsung membuka <em>Executive Dashboard</em>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box warning">
+    <div class="info-box-title">⚠️ Lupa Password?</div>
+    Klik teks <strong>"Forgot Password?"</strong> pada halaman login. Sistem akan menampilkan informasi untuk menghubungi tim <strong>SIAM (Security & Identity Access Management)</strong> di email <strong>siam.support@indexim.com</strong> atau Extension <strong>4100</strong>.
+  </div>
+
+  <div class="section-heading">Peran Pengguna (User Roles)</div>
+  <table class="role-table">
+    <thead>
+      <tr>
+        <th>Modul</th>
+        <th>Admin</th>
+        <th>Supervisor</th>
+        <th>Environment Officer</th>
+        <th>Viewer</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Dashboard</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+      <tr><td>Master Registry</td><td class="check">✔ R/W/D</td><td class="check">✔ R/W</td><td class="check">✔ R/W</td><td class="check">✔ R</td></tr>
+      <tr><td>Inventori Bibit</td><td class="check">✔ R/W/D</td><td class="check">✔ R/W</td><td class="check">✔ R/W</td><td class="check">✔ R</td></tr>
+      <tr><td>Ledger Transaksi</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td><td class="check">✔</td></tr>
+      <tr><td>Growth Monitoring</td><td class="check">✔ R/W/D</td><td class="check">✔ R/W</td><td class="check">✔ R/W</td><td class="check">✔ R</td></tr>
+      <tr><td>Mortalitas</td><td class="check">✔ R/W/D</td><td class="check">✔ R/W</td><td class="check">✔ R/W</td><td class="check">✔ R</td></tr>
+      <tr><td>Stock Opname</td><td class="check">✔ Approve</td><td class="check">✔ Approve</td><td class="check">✔ Submit</td><td class="check">✔ R</td></tr>
+      <tr><td>Log Penanaman</td><td class="check">✔ R/W/D</td><td class="check">✔ R/W</td><td class="check">✔ R/W</td><td class="check">✔ R</td></tr>
+      <tr><td>User Management</td><td class="check">✔ R/W/D</td><td class="check">✔ R</td><td class="cross">✗</td><td class="cross">✗</td></tr>
+      <tr><td>Audit Trail</td><td class="check">✔</td><td class="check">✔</td><td class="cross">✗</td><td class="cross">✗</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size: 10px; color: var(--text-light); margin-top: 8px;">R = Read (Baca), W = Write (Tambah/Edit), D = Delete (Hapus)</p>
+
+  <div class="section-heading">Cara Logout</div>
+  <p style="font-size: 12px; line-height: 1.6;">Klik nama pengguna di pojok kanan atas navbar → pilih menu dropdown → klik <strong>"Terminate Session"</strong>. Sistem akan mencatat aktivitas logout di Audit Trail secara otomatis.</p>
+</div>
+
+<!-- ====================== BAB 3: NAVIGASI ====================== -->
+<div class="content-page page-break">
+  <div class="page-header-strip">
+    <div class="page-header-strip-dot"></div>
+    Nursery ERP — Panduan Pengguna
+    <span style="margin-left: auto;">Bab 3: Navigasi & Antarmuka</span>
+  </div>
+
+  <div class="module-header">
+    <div class="module-icon">🖥️</div>
+    <div class="module-header-text">
+      <div class="module-section-tag">Bab 03 — Antarmuka</div>
+      <div class="module-title">Navigasi & Antarmuka Sistem</div>
+      <div class="module-desc">Memahami layout, sidebar, navbar, dan fitur-fitur umum sistem</div>
+    </div>
+  </div>
+
+  <div class="section-heading">Komponen Utama Antarmuka</div>
+
+  <table class="feature-table">
+    <thead>
+      <tr><th>Komponen</th><th>Lokasi</th><th>Fungsi</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Sidebar</strong></td>
+        <td>Panel kiri</td>
+        <td>Menu navigasi ke seluruh modul sistem. Klik menu item untuk berpindah antar modul.</td>
+      </tr>
+      <tr>
+        <td><strong>Navbar (Top Bar)</strong></td>
+        <td>Bagian atas</td>
+        <td>Berisi: tombol toggle sidebar, breadcrumb lokasi aktif, search global, toggle tema, notifikasi, dan profil pengguna.</td>
+      </tr>
+      <tr>
+        <td><strong>Global Search</strong></td>
+        <td>Navbar tengah</td>
+        <td>Ketik kata kunci untuk mencari data di modul yang sedang aktif (batch, spesies, area, dll).</td>
+      </tr>
+      <tr>
+        <td><strong>Notification Bell</strong></td>
+        <td>Navbar kanan</td>
+        <td>Menampilkan peringatan sistem: Stock Opname pending, survival rate rendah, batch perlu monitoring, batch dead stock.</td>
+      </tr>
+      <tr>
+        <td><strong>Dark/Light Toggle</strong></td>
+        <td>Navbar kanan</td>
+        <td>Klik ikon bulan/matahari untuk beralih antara mode gelap dan terang. Pilihan disimpan otomatis.</td>
+      </tr>
+      <tr>
+        <td><strong>Profile Menu</strong></td>
+        <td>Pojok kanan atas</td>
+        <td>Klik avatar/nama untuk melihat profil, reset data demo, atau logout dari sistem.</td>
+      </tr>
+      <tr>
+        <td><strong>Toast Notifications</strong></td>
+        <td>Pojok kanan bawah</td>
+        <td>Notifikasi pop-up otomatis untuk konfirmasi aksi berhasil/gagal. Hilang otomatis setelah 4 detik.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-heading">Grup Menu Sidebar</div>
+  <div class="two-col">
+    <div>
+      <p style="font-size: 11px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">📌 Main Core</p>
+      <ul class="field-list">
+        <li class="field-item"><span class="field-name">Dashboard</span><span class="field-desc">Ringkasan eksekutif seluruh operasi nurseri</span></li>
+      </ul>
+
+      <p style="font-size: 11px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; margin: 16px 0 8px;">⚙️ Operations</p>
+      <ul class="field-list">
+        <li class="field-item"><span class="field-name">Inventory</span><span class="field-desc">Manajemen batch bibit dan stok</span></li>
+        <li class="field-item"><span class="field-name">Ledger</span><span class="field-desc">Riwayat semua transaksi bibit</span></li>
+        <li class="field-item"><span class="field-name">Nursery Map</span><span class="field-desc">Peta visual plot nurseri</span></li>
+        <li class="field-item"><span class="field-name">Monitoring</span><span class="field-desc">Log pertumbuhan dan inspeksi</span></li>
+        <li class="field-item"><span class="field-name">Mortality</span><span class="field-desc">Pencatatan kematian bibit</span></li>
+      </ul>
+    </div>
+    <div>
+      <p style="font-size: 11px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">🌍 Planning & ESG</p>
+      <ul class="field-list">
+        <li class="field-item"><span class="field-name">Stock Opname</span><span class="field-desc">Rekonsiliasi stok bulanan</span></li>
+        <li class="field-item"><span class="field-name">Planting Log</span><span class="field-desc">Catatan penanaman di lapangan</span></li>
+        <li class="field-item"><span class="field-name">Survival</span><span class="field-desc">Analisis survival rate reklamasi</span></li>
+        <li class="field-item"><span class="field-name">Reclamation</span><span class="field-desc">Target capaian reklamasi</span></li>
+      </ul>
+
+      <p style="font-size: 11px; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; margin: 16px 0 8px;">📋 Reports & Config</p>
+      <ul class="field-list">
+        <li class="field-item"><span class="field-name">Report Center</span><span class="field-desc">Generator laporan & ekspor</span></li>
+        <li class="field-item"><span class="field-name">Master Registry</span><span class="field-desc">Data induk spesies & area</span></li>
+        <li class="field-item"><span class="field-name">User Matrix</span><span class="field-desc">Manajemen akun pengguna</span></li>
+        <li class="field-item"><span class="field-name">Audit Trail</span><span class="field-desc">Log aktivitas keamanan sistem</span></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== BAB 4: DASHBOARD ====================== -->
+<div class="content-page page-break">
+  <div class="page-header-strip">
+    <div class="page-header-strip-dot"></div>
+    Nursery ERP — Panduan Pengguna
+    <span style="margin-left: auto;">Bab 4: Executive Dashboard</span>
+  </div>
+
+  <div class="module-header">
+    <div class="module-icon">📊</div>
+    <div class="module-header-text">
+      <div class="module-section-tag">Bab 04 — Main Core</div>
+      <div class="module-title">Executive Dashboard</div>
+      <div class="module-desc">Ringkasan eksekutif real-time untuk seluruh operasi nurseri dan reklamasi</div>
+    </div>
+  </div>
+
+  <p style="font-size: 12px; line-height: 1.8; margin-bottom: 16px;">
+    Dashboard adalah halaman utama yang ditampilkan setelah login. Halaman ini menyajikan KPI (Key Performance Indicators) 
+    paling kritis secara real-time, grafik tren, dan ringkasan aktivitas terbaru.
+  </p>
+
+  <div class="section-heading">Widget & KPI Utama Dashboard</div>
+  <table class="feature-table">
+    <thead>
+      <tr><th>Widget/KPI</th><th>Keterangan</th><th>Sumber Data</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Total Bibit Aktif</strong></td>
+        <td>Jumlah total bibit yang masih hidup di semua batch inventori</td>
+        <td>Modul Inventory</td>
+      </tr>
+      <tr>
+        <td><strong>Batch Aktif</strong></td>
+        <td>Jumlah batch bibit yang sedang aktif (tidak berstatus Dead)</td>
+        <td>Modul Inventory</td>
+      </tr>
+      <tr>
+        <td><strong>Plot Nurseri</strong></td>
+        <td>Jumlah plot/bedengan nurseri yang terdaftar di sistem</td>
+        <td>Master Registry</td>
+      </tr>
+      <tr>
+        <td><strong>Survival Rate</strong></td>
+        <td>Rata-rata tingkat kelangsungan hidup tanaman di lapangan reklamasi (%)</td>
+        <td>Modul Survival</td>
+      </tr>
+      <tr>
+        <td><strong>Grafik Penerimaan vs Penanaman</strong></td>
+        <td>Tren penerimaan bibit baru vs jumlah bibit yang ditanam per bulan</td>
+        <td>Ledger Transaksi</td>
+      </tr>
+      <tr>
+        <td><strong>Distribusi Status Bibit</strong></td>
+        <td>Grafik donut: Healthy, Monitoring, Ready To Plant, Dead</td>
+        <td>Modul Inventory</td>
+      </tr>
+      <tr>
+        <td><strong>Recent Transactions</strong></td>
+        <td>5 transaksi ledger terbaru untuk monitoring aktivitas terkini</td>
+        <td>Ledger Transaksi</td>
+      </tr>
+      <tr>
+        <td><strong>Alert Notifications</strong></td>
+        <td>Peringatan otomatis: opname pending, survival rendah, dead stock</td>
+        <td>Semua Modul</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="info-box tip">
+    <div class="info-box-title">💡 Tips Dashboard</div>
+    Widget dan grafik di dashboard diperbarui secara otomatis setiap kali kamu berpindah ke halaman dashboard. 
+    Klik alert notification di bell icon di navbar untuk langsung menuju modul yang bermasalah.
+  </div>
+</div>
+
+<!-- ====================== BAB 5: MASTER REGISTRY ====================== -->
+<div class="content-page page-break">
+  <div class="page-header-strip">
+    <div class="page-header-strip-dot"></div>
+    Nursery ERP — Panduan Pengguna
+    <span style="margin-left: auto;">Bab 5: Master Registry</span>
+  </div>
+
+  <div class="module-header">
+    <div class="module-icon">🗂️</div>
+    <div class="module-header-text">
+      <div class="module-section-tag">Bab 05 — Data Induk</div>
+      <div class="module-title">Master Registry</div>
+      <div class="module-desc">Pengelolaan data induk: spesies bibit, supplier, plot nurseri, dan blok reklamasi</div>
+    </div>
+  </div>
+
+  <p style="font-size: 12px; line-height: 1.8; margin-bottom: 16px;">
+    Master Registry adalah fondasi data untuk seluruh modul operasional. Semua data di sini harus diisi terlebih dahulu 
+    sebelum dapat mencatat inventori, penanaman, atau monitoring. Modul ini memiliki 4 sub-tab.
+  </p>
+
+  <div class="section-heading">Sub-Tab 1: Spesies Bibit (Seedling Species)</div>
+  <p style="font-size: 12px; line-height: 1.6; margin-bottom: 12px;">Mendaftarkan jenis-jenis tanaman yang digunakan dalam program reklamasi. Terdapat 53 spesies yang telah terdaftar dari data Excel 2026.</p>
+  <ul class="field-list">
+    <li class="field-item"><span class="field-name">Kode Spesies</span><span class="field-desc">Kode unik identifikasi (contoh: PRN-001, SNG-009)</span></li>
+    <li class="field-item"><span class="field-name">Nama Umum</span><span class="field-desc">Nama lokal tanaman (contoh: Sengon Buto, Jabon Putih)</span></li>
+    <li class="field-item"><span class="field-name">Nama Ilmiah</span><span class="field-desc">Nama botani dalam bahasa Latin (contoh: Falcataria moluccana)</span></li>
+    <li class="field-item"><span class="field-name">Kategori</span><span class="field-desc">Fast Growing / Local Species / Late Successional / Conservation Species</span></li>
+    <li class="field-item"><span class="field-name">Deskripsi</span><span class="field-desc">Keterangan botani, karakteristik daun, dan kondisi pertumbuhan ideal</span></li>
+  </ul>
+
+  <div class="section-heading">Sub-Tab 2: Supplier Registry</div>
+  <p style="font-size: 12px; line-height: 1.6; margin-bottom: 12px;">Mendaftarkan pemasok bibit yang bekerja sama dengan nurseri Indexim.</p>
+  <ul class="field-list">
+    <li class="field-item"><span class="field-name">Nama Supplier</span><span class="field-desc">Nama resmi perusahaan/CV pemasok bibit</span></li>
+    <li class="field-item"><span class="field-name">PIC</span><span class="field-desc">Nama person-in-charge yang bisa dihubungi</span></li>
+    <li class="field-item"><span class="field-name">Telepon</span><span class="field-desc">Nomor HP/kantor PIC</span></li>
+    <li class="field-item"><span class="field-name">Email</span><span class="field-desc">Alamat email resmi pemasok</span></li>
+    <li class="field-item"><span class="field-name">Alamat</span><span class="field-desc">Lokasi kantor dan kebun bibit pemasok</span></li>
+  </ul>
+
+  <div class="section-heading">Sub-Tab 3: Plot Nurseri (Nursery Areas)</div>
+  <p style="font-size: 12px; line-height: 1.6; margin-bottom: 12px;">Mendaftarkan area/bedengan di dalam nurseri sebagai lokasi penyimpanan bibit.</p>
+  <ul class="field-list">
+    <li class="field-item"><span class="field-name">Kode Area</span><span class="field-desc">Kode grid peta (contoh: A1, B2, E1) — digunakan di Visual Plot Map</span></li>
+    <li class="field-item"><span class="field-name">Nama Plot</span><span class="field-desc">Label deskriptif area (contoh: Greenhouse Plot E1)</span></li>
+    <li class="field-item"><span class="field-name">Kapasitas</span><span class="field-desc">Jumlah maksimal bibit yang dapat ditampung dalam plot ini</span></li>
+    <li class="field-item"><span class="field-name">Lokasi Sektor</span><span class="field-desc">Lokasi fisik di dalam area nurseri (contoh: East Wing Sector 3)</span></li>
+  </ul>
+
+  <div class="section-heading">Sub-Tab 4: Blok Reklamasi (Planting Dump Blocks)</div>
+  <p style="font-size: 12px; line-height: 1.6; margin-bottom: 12px;">Mendaftarkan blok-blok area reklamasi di lahan tambang sebagai lokasi penanaman bibit. Terdapat 83 blok yang telah terdaftar.</p>
+  <ul class="field-list">
+    <li class="field-item"><span class="field-name">Kode Blok</span><span class="field-desc">Kode identifikasi blok (contoh: BLK-G-PIT3, REV_IPM)</span></li>
+    <li class="field-item"><span class="field-name">Nama Blok</span><span class="field-desc">Nama lengkap area (contoh: Block G - South Dump Pit 3)</span></li>
+    <li class="field-item"><span class="field-name">Luas (Ha)</span><span class="field-desc">Luas area blok dalam satuan hektar</span></li>
+    <li class="field-item"><span class="field-name">Koordinat GPS</span><span class="field-desc">Koordinat lintang dan bujur (contoh: -0.9654, 117.4725)</span></li>
+  </ul>
+
+  <div class="info-box warning">
+    <div class="info-box-title">⚠️ Penting!</div>
+    Menghapus data di Master Registry (spesies, supplier, area) dapat mempengaruhi integritas data di modul lain seperti Inventori dan Ledger. 
+    Pastikan tidak ada record aktif yang bergantung pada data tersebut sebelum menghapus.
+  </div>
+</div>
+
+<!-- ====================== BAB 6: INVENTORY ====================== -->
+<div class="content-page page-break">
+  <div class="page-header-strip">
+    <div class="page-header-strip-dot"></div>
+    Nursery ERP — Panduan Pengguna
+    <span style="margin-left: auto;">Bab 6: Seedling Inventory</span>
+  </div>
+
+  <div class="module-header">
+    <div class="module-icon">🏭</div>
+    <div class="module-header-text">
+      <div class="module-section-tag">Bab 06 — Operasional</div>
+      <div class="module-title">Seedling Inventory</div>
+      <div class="module-desc">Manajemen lengkap batch bibit: pencatatan, pemantauan stok, dan riwayat transaksi per batch</div>
+    </div>
+  </div>
+
+  <div class="section-heading">Cara Menambah Batch Bibit Baru</div>
+  <div class="steps-list">
+    <div class="step-item">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <div class="step-title">Klik tombol "Log New Batch"</div>
+        <div class="step-desc">Tombol hijau di pojok kanan atas halaman Inventory. Form dialog akan terbuka.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <div class="step-title">Isi data batch</div>
+        <div class="step-desc">Nomor batch dibuat otomatis. Pilih spesies, supplier, plot nurseri, tanggal, jumlah, umur (minggu), tinggi (cm), dan status kesehatan.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <div class="step-title">Klik "Confirm Save"</div>
+        <div class="step-desc">Sistem otomatis mencatat transaksi "Receipt" di Ledger untuk batch ini.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-heading">Kolom Data di Tabel Inventori</div>
+  <table class="feature-table">
+    <thead>
+      <tr><th>Kolom</th><th>Keterangan</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Batch Number</strong></td><td>Kode unik batch (klik untuk lihat riwayat ledger dan pertumbuhan)</td></tr>
+      <tr><td><strong>Species Name</strong></td><td>Nama umum dan nama ilmiah bibit</td></tr>
+      <tr><td><strong>Date Received</strong></td><td>Tanggal bibit diterima di nurseri</td></tr>
+      <tr><td><strong>Received Qty</strong></td><td>Jumlah bibit awal saat diterima</td></tr>
+      <tr><td><strong>Balance Qty</strong></td><td>Stok bibit yang tersisa saat ini (setelah dikurangi penanaman & kematian)</td></tr>
+      <tr><td><strong>Age (Wks)</strong></td><td>Umur bibit dalam satuan minggu sejak disemai/diterima</td></tr>
+      <tr><td><strong>Height (cm)</strong></td><td>Tinggi bibit terakhir yang tercatat dari log pertumbuhan</td></tr>
+      <tr><td><strong>Plot Location</strong></td><td>Kode plot nurseri tempat batch ini disimpan</td></tr>
+      <tr><td><strong>Health Status</strong></td><td>Status: Healthy / Monitoring / Ready To Plant / Dead</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-heading">Filter & Pencarian</div>
+  <ul class="field-list">
+    <li class="field-item"><span class="field-name">Search</span><span class="field-desc">Cari berdasarkan nomor batch, nama spesies, nama ilmiah, atau supplier</span></li>
+    <li class="field-item"><span class="field-name">Status Filter</span><span class="field-desc">Filter berdasarkan status kesehatan: All / Healthy / Monitoring / Ready To Plant / Dead</span></li>
+    <li class="field-item"><span class="field-name">Species Filter</span><span class="field-desc">Filter berdasarkan jenis spesies bibit</span></li>
+    <li class="field-item"><span class="field-name">Plot Filter</span><span class="field-desc">Filter berdasarkan plot/bedengan nurseri</span></li>
+  </ul>
+
+  <div class="section-heading">Import & Export CSV</div>
+  <div class="two-col">
+    <div class="info-box tip">
+      <div class="info-box-title">📤 Export CSV</div>
+      Klik tombol <strong>"Export CSV"</strong> untuk mengunduh seluruh data inventori dalam format CSV. File dinamai: <em>Nursery_Inventory_Report_[tanggal].csv</em>
+    </div>
+    <div class="info-box info">
+      <div class="info-box-title">📥 Import CSV</div>
+      Klik <strong>"Import CSV"</strong> untuk mengunggah data batch baru dari file CSV. Format header: Batch Number, Species Code, Species Name, Supplier, Date, Received Qty, dst.
+    </div>
+  </div>
+
+  <div class="section-heading">Lihat Detail Batch</div>
+  <p style="font-size: 12px; line-height: 1.6;">Klik <strong>Batch Number</strong> (teks hijau) atau klik ikon 🔍 di kolom aksi untuk membuka <em>Audit Inspector</em> batch tersebut. Tampil:</p>
+  <ul style="font-size: 12px; line-height: 1.8; padding-left: 20px;">
+    <li>Informasi lengkap batch (spesies, supplier, plot, stok)</li>
+    <li>Log pertumbuhan dari modul Growth Monitoring</li>
+    <li>Riwayat pergerakan stok dari Ledger Transaksi</li>
+  </ul>
+</div>
+
+<!-- ====================== BAB 7: LEDGER ====================== -->
+<div class="content-page page-break">
+  <div class="page-header-strip">
+    <div class="page-header-strip-dot"></div>
+    Nursery ERP — Panduan Pengguna
+    <span style="margin-left: auto;">Bab 7: Transaction Ledger</span>
+  </div>
+
+  <div class="module-header">
+    <div class="module-icon">📒</div>
+    <div class="module-header-text">
+      <div class="module-section-tag">Bab 07 — Operasional</div>
+      <div class="module-title">Transaction Ledger</div>
+      <div class="module-desc">Buku besar transaksi bibit — semua pergerakan masuk dan keluar bibit tercatat di sini secara otomatis</div>
+    </div>
+  </div>
+
+  <p style="font-size: 12px; line-height: 1.8; margin-bottom: 16px;">
+    Ledger adalah catatan lengkap semua pergerakan stok bibit. Setiap aksi di modul lain (penerimaan, penanaman, kematian, 
+    stock opname adjustment, transfer) akan otomatis menghasilkan entri ledger baru. Pengguna juga bisa menambah entri manual.
+  </p>
+
+  <div class="section-heading">Jenis Transaksi Ledger</div>
+  <table class="feature-table">
+    <thead>
+      <tr><th>Tipe Transaksi</th><th>Efek pada Stok</th><th>Sumber</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="badge green">Receipt</span></td><td>+QtyIn (stok bertambah)</td><td>Pendaftaran batch baru di Inventori</td></tr>
+      <tr><td><span class="badge red">Planting</span></td><td>-QtyOut (stok berkurang)</td><td>Pencatatan penanaman di Planting Log</td></tr>
+      <tr><td><span class="badge red">Mortality</span></td><td>-QtyOut (stok berkurang)</td><td>Pencatatan kematian di modul Mortality</td></tr>
+      <tr><td><span class="badge blue">Stock Opname Adjustment</span></td><td>+/- sesuai selisih</td><td>Hasil rekonsiliasi Stock Opname</td></tr>
+      <tr><td><span class="badge gray">Transfer</span></td><td>Netral (pindah plot)</td><td>Edit lokasi batch di Inventori</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-heading">Kolom Data Ledger</div>
+  <ul class="field-list">
+    <li class="field-item"><span class="field-name">Tanggal</span><span class="field-desc">Tanggal dan waktu transaksi terjadi</span></li>
+    <li class="field-item"><span class="field-name">Batch Number</span><span class="field-desc">Nomor batch yang terlibat dalam transaksi</span></li>
+    <li class="field-item"><span class="field-name">Tipe</span><span class="field-desc">Jenis transaksi (Receipt, Planting, Mortality, dll)</span></li>
+    <li class="field-item"><span class="field-name">Qty In</span><span class="field-desc">Jumlah bibit yang masuk (bernilai positif)</span></li>
+    <li class="field-item"><span class="field-name">Qty Out</span><span class="field-desc">Jumlah bibit yang keluar (bernilai negatif untuk stok)</span></li>
+    <li class="field-item"><span class="field-name">Balance</span><span class="field-desc">Saldo stok kumulatif setelah transaksi ini</span></li>
+    <li class="field-item"><span class="field-name">Keterangan</span><span class="field-desc">Catatan/alasan transaksi</span></li>
+  </ul>
+
+  <div class="info-box info">
+    <div class="info-box-title">ℹ️ Catatan Penting</div>
+    Total terdapat <strong>859 entri ledger</strong> yang telah terisi dari data Excel 2026. Gunakan filter batch number atau tipe transaksi untuk menemukan catatan spesifik.
+  </div>
+</div>
+
+<!-- ====================== BAB 8: NURSERY MAP ====================== -->
+<div class="content-page page-break">
+  <div class="page-header-strip">
+    <div class="page-header-strip-dot"></div>
+    Nursery ERP — Panduan Pengguna
+    <span style="margin-left: auto;">Bab 8: Visual Plot Map</span>
+  </div>
+
+  <div class="module-header">
+    <div class="module-icon">🗺️</div>
+    <div class="module-header-text">
+      <div class="module-section-tag">Bab 08 — Operasional</div>
+      <div class="module-title">Visual Plot Map (Peta Nurseri)</div>
+      <div class="module-desc">Visualisasi interaktif denah seluruh plot/bedengan nurseri beserta status kapasitas dan isi bibitnya</div>
+    </div>
+  </div>
+
+  <p style="font-size: 12px; line-height: 1.8; margin-bottom: 16px;">
+    Visual Plot Map menampilkan denah nurseri dalam format grid interaktif. Setiap sel merepresentasikan satu plot/bedengan 
+    yang terdaftar di Master Registry. Warna sel mencerminkan tingkat penggunaan kapasitas plot tersebut.
+  </p>
+
+  <div class="section-heading">Cara Membaca Peta</div>
+  <table class="feature-table">
+    <thead>
+      <tr><th>Warna Sel</th><th>Status</th><th>Keterangan</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge green">Hijau</span></td>
+        <td>Kapasitas Normal</td>
+        <td>Plot masih memiliki ruang yang cukup untuk menampung bibit</td>
+      </tr>
+      <tr>
+        <td><span class="badge yellow">Kuning</span></td>
+        <td>Hampir Penuh</td>
+        <td>Kapasitas plot sudah di atas 75% — perlu perhatian segera</td>
+      </tr>
+      <tr>
+        <td><span class="badge red">Merah</span></td>
+        <td>Penuh / Kritis</td>
+        <td>Plot sudah mendekati atau melebihi kapasitas maksimum</td>
+      </tr>
+      <tr>
+        <td><span class="badge gray">Abu-Abu</span></td>
+        <td>Kosong</span></td>
+        <td>Plot belum berisi batch bibit manapun</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-heading">Fitur Interaktif</div>
+  <ul style="font-size: 12px; line-height: 1.8; padding-left: 20px;">
+    <li><strong>Klik sel plot</strong> → melihat detail: nama plot, kapasitas, batch bibit yang ada di dalamnya, dan persentase penggunaan</li>
+    <li><strong>Hover sel</strong> → tooltip singkat kapasitas dan jumlah bibit saat ini</li>
+    <li><strong>Grid otomatis</strong> → jumlah kolom menyesuaikan berdasarkan jumlah plot yang terdaftar</li>
+  </ul>
+
+  <div class="info-box tip">
+    <div class="info-box-title">💡 Kegunaan Peta</div>
+    Gunakan peta untuk merencanakan penempatan batch baru. Pilih plot yang masih hijau dan memiliki kapasitas cukup sebelum mencatat batch di modul Inventori.
+  </div>
+</div>
+
+<!-- ====================== BAB 9: MONITORING ====================== -->
+<div class="content-page page-break">
+  <div class="page-header-strip">
+    <div class="page-header-strip-dot"></div>
+    Nursery ERP — Panduan Pengguna
+    <span style="margin-left: auto;">Bab 9: Growth Monitoring</span>
+  </div>
+
+  <div class="module-header">
+    <div class="module-icon">📈</div>
+    <div class="module-header-text">
+      <div class="module-section-tag">Bab 09 — Monitoring</div>
+      <div class="module-title">Growth Monitoring</div>
+      <div class="module-desc">Pencatatan inspeksi pertumbuhan bibit: tinggi, diameter batang, kondisi daun, dan foto referensi</div>
+    </div>
+  </div>
+
+  <div class="section-heading">Cara Mencatat Inspeksi Pertumbuhan</div>
+  <div class="steps-list">
+    <div class="step-item">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <div class="step-title">Klik "Log New Inspection"</div>
+        <div class="step-desc">Tombol di pojok kanan atas modul Growth Monitoring.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <div class="step-title">Pilih Batch Number</div>
+        <div class="step-desc">Dropdown menampilkan semua batch aktif (non-Dead). Pilih batch yang baru selesai diperiksa di lapangan.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <div class="step-title">Isi Data Inspeksi</div>
+        <div class="step-desc">Isi: Tanggal, Tinggi (cm), Diameter Batang (cm), Kondisi Daun, Skor Kesehatan (0-100), Catatan Inspektur.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">4</div>
+      <div class="step-content">
+        <div class="step-title">Upload Foto (Opsional)</div>
+        <div class="step-desc">Klik area upload untuk melampirkan foto referensi lapangan. Maksimal 500KB per foto (format: JPG, PNG).</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">5</div>
+      <div class="step-content">
+        <div class="step-title">Simpan — Status Otomatis Diperbarui</div>
+        <div class="step-desc">Sistem otomatis memperbarui tinggi dan status batch di Inventori: <em>Skor &lt; 70 → Monitoring | Tinggi ≥ 40cm → Ready To Plant</em></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-heading">Tampilan Timeline & Grafik</div>
+  <div class="two-col">
+    <div class="info-box info">
+      <div class="info-box-title">📅 Inspection Timeline</div>
+      Kartu timeline kronologis di sisi kanan menampilkan setiap inspeksi batch yang dipilih, terurut dari terbaru ke terlama. Termasuk foto jika ada.
+    </div>
+    <div class="info-box info">
+      <div class="info-box-title">📈 Growth Curve Chart</div>
+      Grafik garis dual-axis: sumbu kiri = Tinggi (cm), sumbu kanan = Diameter Batang (cm). Memperlihatkan tren pertumbuhan dari waktu ke waktu.
+    </div>
+  </div>
+
+  <table class="feature-table">
+    <thead>
+      <tr><th>Kondisi Daun</th><th>Interpretasi</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="badge green">Excellent</span></td><td>Daun sehat, warna hijau cerah, tidak ada tanda penyakit</td></tr>
+      <tr><td><span class="badge green">Good</span></td><td>Kondisi baik, minimal kelainan</td></tr>
+      <tr><td><span class="badge yellow">Slightly Yellow</span></td><td>Ada tanda kekurangan unsur hara, perlu perhatian</td></tr>
+      <tr><td><span class="badge red">Wilted</span></td><td>Daun layu, indikasi stress air atau tanah</td></tr>
+      <tr><td><span class="badge red">Pest Spotted</span></td><td>Ditemukan hama/serangan serangga, segera laporkan</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ====================== BAB 10: MORTALITY ====================== -->
+<div class="content-page page-break">
+  <div class="page-header-strip">
+    <div class="page-header-strip-dot"></div>
+    Nursery ERP — Panduan Pengguna
+    <span style="margin-left: auto;">Bab 10: Mortality Records</span>
+  </div>
+
+  <div class="module-header">
+    <div class="module-icon">⚠️</div>
+    <div class="module-header-text">
+      <div class="module-section-tag">Bab 10 — Monitoring</div>
+      <div class="module-title">Mortality Records</div>
+      <div class="module-desc">Pencatatan kematian bibit di nurseri beserta analisis penyebab dan dampak terhadap stok inventori</div>
+    </div>
+  </div>
+
+  <p style="font-size: 12px; line-height: 1.8; margin-bottom: 16px;">
+    Setiap kematian bibit harus dicatat segera agar stok inventori selalu akurat. Pencatatan mortalitas 
+    akan otomatis mengurangi balance stok batch yang bersangkutan dan membuat entri ledger tipe <em>Mortality</em>.
+  </p>
+
+  <div class="section-heading">Cara Mencatat Kematian Bibit</div>
+  <div class="steps-list">
+    <div class="step-item">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <div class="step-title">Klik "Record Seedling Loss"</div>
+        <div class="step-desc">Tombol merah di pojok kanan atas modul Mortality Records.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <div class="step-title">Pilih Batch & Isi Data</div>
+        <div class="step-desc">Pilih batch dari dropdown (hanya batch aktif yang ada stoknya). Isi tanggal kejadian, jumlah bibit mati, dan penyebab utama kematian.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <div class="step-title">Klik "Confirm Save"</div>
+        <div class="step-desc">Stok batch otomatis berkurang. Validasi mencegah pencatatan melebihi stok yang tersedia.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-heading">Penyebab Kematian yang Tersedia</div>
+  <div class="two-col">
+    <ul class="field-list">
+      <li class="field-item"><span class="field-name">Pest</span><span class="field-desc">Serangan hama serangga atau binatang</span></li>
+      <li class="field-item"><span class="field-name">Disease</span><span class="field-desc">Penyakit jamur, bakteri, atau virus</span></li>
+      <li class="field-item"><span class="field-name">Drought</span><span class="field-desc">Kekeringan / kurang air</span></li>
+    </ul>
+    <ul class="field-list">
+      <li class="field-item"><span class="field-name">Flood</span><span class="field-desc">Banjir / genangan air berlebih</span></li>
+      <li class="field-item"><span class="field-name">Handling Damage</span><span class="field-desc">Rusak saat penanganan/transportasi</span></li>
+      <li class="field-item"><span class="field-name">Other</span><span class="field-desc">Penyebab lain yang tidak terkategori</span></li>
+    </ul>
+  </div>
+
+  <div class="section-heading">Panel Statistik & Grafik</div>
+  <ul style="font-size: 12px; line-height: 1.8; padding-left: 20px;">
+    <li><strong>Cumulative Dead Seedlings</strong> — total bibit yang meninggal sepanjang waktu di semua batch</li>
+    <li><strong>Leading Casualty Cause</strong> — penyebab kematian terbanyak berdasarkan total bibit yang mati</li>
+    <li><strong>Donut Chart</strong> — distribusi persentase setiap penyebab kematian</li>
+    <li><strong>Trend Chart</strong> — tren jumlah kematian per bulan dalam 6 bulan terakhir</li>
+  </ul>
+
+  <div class="info-box danger">
+    <div class="info-box-title">🚨 SOP Internal</div>
+    Setiap batch yang mengalami kematian lebih dari <strong>15% dalam 14 hari</strong> harus segera dilaporkan ke Tim Reklamasi untuk mendapatkan tindakan karantina dan investigasi penyebab.
+  </div>
+</div>
+
+<!-- ====================== BAB 11: STOCK OPNAME ====================== -->
+<div class="content-page page-break">
+  <div class="page-header-strip">
+    <div class="page-header-strip-dot"></div>
+    Nursery ERP — Panduan Pengguna
+    <span style="margin-left: auto;">Bab 11: Stock Opname</span>
+  </div>
+
+  <div class="module-header">
+    <div class="module-icon">📋</div>
+    <div class="module-header-text">
+      <div class="module-section-tag">Bab 11 — Planning & ESG</div>
+      <div class="module-title">Stock Opname</div>
+      <div class="module-desc">Rekonsiliasi stok bulanan — mencocokkan data sistem dengan hitungan fisik bibit di nurseri</div>
+    </div>
+  </div>
+
+  <p style="font-size: 12px; line-height: 1.8; margin-bottom: 16px;">
+    Stock Opname adalah proses rekonsiliasi antara stok yang tercatat di sistem dengan jumlah fisik bibit yang ada di bedengan. 
+    Dilakukan minimal sekali per bulan. Terdapat 58 record opname yang telah terisi dari data sensus bulanan Excel 2026.
+  </p>
+
+  <div class="section-heading">Alur Kerja Stock Opname</div>
+  <div class="steps-list">
+    <div class="step-item">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <div class="step-title">Hitung Fisik Bibit di Lapangan</div>
+        <div class="step-desc">Petugas melakukan hitungan fisik per bedengan dan mencatat hasilnya.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <div class="step-title">Buat Record Opname Baru</div>
+        <div class="step-desc">Klik "Create Opname Record" → pilih batch → isi tanggal opname → masukkan jumlah fisik yang dihitung (Actual Count).</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <div class="step-title">Submit untuk Review</div>
+        <div class="step-desc">Klik "Submit" → status berubah menjadi <em>Submitted</em>. Notifikasi muncul di bell notification untuk Supervisor/Admin.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">4</div>
+      <div class="step-content">
+        <div class="step-title">Approve/Reject (Supervisor/Admin)</div>
+        <div class="step-desc">Supervisor atau Admin mereview selisih. Jika disetujui → Approved → sistem otomatis membuat entri <em>Stock Opname Adjustment</em> di Ledger dan memperbarui stok inventori.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-heading">Status Opname</div>
+  <table class="feature-table">
+    <thead>
+      <tr><th>Status</th><th>Keterangan</th><th>Siapa yang Bisa Mengubah</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="badge gray">Draft</span></td><td>Baru dibuat, belum disubmit</td><td>Environment Officer, Admin, Supervisor</td></tr>
+      <tr><td><span class="badge yellow">Submitted</span></td><td>Sudah disubmit, menunggu persetujuan</td><td>Sama seperti Draft</td></tr>
+      <tr><td><span class="badge green">Approved</span></td><td>Disetujui, stok sudah direkonsiliasi</td><td>Admin & Supervisor saja</td></tr>
+      <tr><td><span class="badge red">Rejected</span></td><td>Ditolak, perlu direvisi</td><td>Admin & Supervisor saja</td></tr>
+    </tbody>
+  </table>
+
+  <div class="info-box warning">
+    <div class="info-box-title">⚠️ Perhatian Selisih Stok</div>
+    Jika terdapat selisih signifikan antara stok sistem dan hitungan fisik, segera lakukan investigasi sebelum melakukan approval. 
+    Selisih besar bisa mengindikasikan kesalahan pencatatan di modul Mortality atau Planting Log.
+  </div>
+</div>
+
+<!-- ====================== BAB 12: PLANTING LOG ====================== -->
+<div class="content-page page-break">
+  <div class="page-header-strip">
+    <div class="page-header-strip-dot"></div>
+    Nursery ERP — Panduan Pengguna
+    <span style="margin-left: auto;">Bab 12: Planting Log</span>
+  </div>
+
+  <div class="module-header">
+    <div class="module-icon">🌿</div>
+    <div class="module-header-text">
+      <div class="module-section-tag">Bab 12 — Planning & ESG</div>
+      <div class="module-title">Planting Log (Log Penanaman)</div>
+      <div class="module-desc">Pencatatan kegiatan penanaman bibit di lapangan reklamasi — 595 record telah tersedia dari data Excel 2026</div>
+    </div>
+  </div>
+
+  <p style="font-size: 12px; line-height: 1.8; margin-bottom: 16px;">
+    Planting Log mencatat setiap kegiatan penanaman bibit dari nurseri ke blok reklamasi di lapangan. 
+    Setiap pencatatan otomatis mengurangi stok di Inventori dan membuat entri ledger tipe <em>Planting</em>.
+  </p>
+
+  <div class="section-heading">Cara Mencatat Penanaman</div>
+  <div class="steps-list">
+    <div class="step-item">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <div class="step-title">Klik "Log New Planting Activity"</div>
+        <div class="step-desc">Tombol di pojok kanan atas modul Planting Log.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <div class="step-title">Pilih Batch & Blok Reklamasi</div>
+        <div class="step-desc">Pilih batch bibit yang akan ditanam dan blok reklamasi tujuan penanaman. Blok dipilih dari data Planting Areas di Master Registry.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <div class="step-title">Isi Jumlah & Tanggal</div>
+        <div class="step-desc">Masukkan jumlah bibit yang ditanam dan tanggal pelaksanaan penanaman di lapangan.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">4</div>
+      <div class="step-content">
+        <div class="step-title">Simpan — Stok Berkurang Otomatis</div>
+        <div class="step-desc">Sistem memvalidasi bahwa jumlah tidak melebihi stok tersedia. Jika valid, stok berkurang dan ledger diperbarui.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-heading">Informasi yang Dicatat</div>
+  <ul class="field-list">
+    <li class="field-item"><span class="field-name">Tanggal Tanam</span><span class="field-desc">Tanggal pelaksanaan penanaman di lapangan</span></li>
+    <li class="field-item"><span class="field-name">Batch Number</span><span class="field-desc">Batch bibit yang digunakan untuk penanaman</span></li>
+    <li class="field-item"><span class="field-name">Blok Reklamasi</span><span class="field-desc">Lokasi penanaman (dari daftar 83 blok di Master Registry)</span></li>
+    <li class="field-item"><span class="field-name">Jumlah Ditanam</span><span class="field-desc">Jumlah bibit yang berhasil ditanam di lapangan</span></li>
+    <li class="field-item"><span class="field-name">Petugas</span><span class="field-desc">Nama user yang mencatat, otomatis dari sesi aktif</span></li>
+  </ul>
+</div>
+
+<!-- ====================== BAB 13: SURVIVAL ANALYSIS ====================== -->
+<div class="content-page page-break">
+  <div class="page-header-strip">
+    <div class="page-header-strip-dot"></div>
+    Nursery ERP — Panduan Pengguna
+    <span style="margin-left: auto;">Bab 13: Survival Analysis</span>
+  </div>
+
+  <div class="module-header">
+    <div class="module-icon">📊</div>
+    <div class="module-header-text">
+      <div class="module-section-tag">Bab 13 — ESG</div>
+      <div class="module-title">Survival Analysis</div>
+      <div class="module-desc">Analisis tingkat kelangsungan hidup (survival rate) tanaman reklamasi di lapangan</div>
+    </div>
+  </div>
+
+  <p style="font-size: 12px; line-height: 1.8; margin-bottom: 16px;">
+    Modul ini digunakan untuk mencatat dan menganalisis hasil audit lapangan — berapa persen tanaman yang bertahan hidup 
+    setelah ditanam di blok reklamasi. Data ini menjadi indikator ESG utama untuk pelaporan kepada regulator.
+  </p>
+
+  <div class="section-heading">Cara Mencatat Survival Audit</div>
+  <div class="steps-list">
+    <div class="step-item">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <div class="step-title">Lakukan Audit Lapangan</div>
+        <div class="step-desc">Tim lapangan menghitung tanaman yang hidup dan mati di blok reklamasi yang sudah ditanami.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <div class="step-title">Buat Record Survival Baru</div>
+        <div class="step-desc">Klik tombol tambah → pilih blok reklamasi → isi tanggal audit, jumlah tanaman hidup, dan jumlah tanaman mati.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <div class="step-title">Survival Rate Dihitung Otomatis</div>
+        <div class="step-desc">Sistem menghitung: <em>Survival Rate = (Hidup / Total) × 100%</em>. Jika di bawah 90% → notifikasi peringatan muncul di dashboard.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-heading">Indikator Survival Rate</div>
+  <table class="feature-table">
+    <thead>
+      <tr><th>Range Survival Rate</th><th>Kategori</th><th>Tindakan</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge green">≥ 90%</span></td>
+        <td>Sangat Baik</td>
+        <td>Tidak perlu tindakan khusus. Lanjutkan monitoring rutin.</td>
+      </tr>
+      <tr>
+        <td><span class="badge yellow">70% - 89%</span></td>
+        <td>Perlu Perhatian</td>
+        <td>Investigasi penyebab, pertimbangkan penanaman ulang di titik kosong.</td>
+      </tr>
+      <tr>
+        <td><span class="badge red">&lt; 70%</span></td>
+        <td>Kritis</td>
+        <td>Laporan segera ke manajemen. Audit mendalam dan penyulaman diperlukan.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="info-box tip">
+    <div class="info-box-title">📌 Data Audit 2023</div>
+    Sistem telah memuat data Audit Tanaman Reklamasi tanggal 31 Maret 2023, berisi sensus hidup/mati tanaman di kategori Pionir, Buah-buahan, dan Primer.
+  </div>
+</div>
+
+<!-- ====================== BAB 14: RECLAMATION TARGETS ====================== -->
+<div class="content-page page-break">
+  <div class="page-header-strip">
+    <div class="page-header-strip-dot"></div>
+    Nursery ERP — Panduan Pengguna
+    <span style="margin-left: auto;">Bab 14: Reclamation Targets</span>
+  </div>
+
+  <div class="module-header">
+    <div class="module-icon">⛰️</div>
+    <div class="module-header-text">
+      <div class="module-section-tag">Bab 14 — ESG</div>
+      <div class="module-title">Reclamation Targets</div>
+      <div class="module-desc">Pemantauan capaian target reklamasi lahan tambang per blok dump area</div>
+    </div>
+  </div>
+
+  <p style="font-size: 12px; line-height: 1.8; margin-bottom: 16px;">
+    Reclamation Targets menampilkan progres pencapaian target penanaman di setiap blok reklamasi. 
+    Membantu manajemen memantau sejauh mana kewajiban ESG reklamasi lahan telah dipenuhi.
+  </p>
+
+  <div class="section-heading">Informasi yang Ditampilkan</div>
+  <table class="feature-table">
+    <thead>
+      <tr><th>Field</th><th>Keterangan</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Kode Blok</strong></td><td>Identifikasi blok reklamasi dari Master Registry</td></tr>
+      <tr><td><strong>Target Tanaman</strong></td><td>Jumlah tanaman yang harus ditanam sesuai rencana reklamasi</td></tr>
+      <tr><td><strong>Realisasi Ditanam</strong></td><td>Total tanaman yang sudah berhasil ditanam dari data Planting Log</td></tr>
+      <tr><td><strong>Capaian (%)</strong></td><td>Persentase realisasi terhadap target: <em>(Ditanam / Target) × 100%</em></td></tr>
+      <tr><td><strong>Status</strong></td><td>On Track / Behind Target / Completed</td></tr>
+      <tr><td><strong>Luas Area (Ha)</strong></td><td>Luas fisik blok reklamasi dalam hektar</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-heading">Cara Update Target Blok</div>
+  <div class="steps-list">
+    <div class="step-item">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <div class="step-title">Klik tombol Edit di baris blok</div>
+        <div class="step-desc">Klik ikon pensil di kolom aksi untuk membuka form edit target blok reklamasi.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <div class="step-title">Perbarui Target Jumlah Tanaman</div>
+        <div class="step-desc">Sesuaikan angka target dengan dokumen rencana reklamasi terbaru yang sudah disetujui manajemen.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <div class="step-title">Simpan — Progress Otomatis Dihitung</div>
+        <div class="step-desc">Persentase capaian diperbarui secara otomatis berdasarkan data aktual dari Planting Log.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== BAB 15: REPORT CENTER ====================== -->
+<div class="content-page page-break">
+  <div class="page-header-strip">
+    <div class="page-header-strip-dot"></div>
+    Nursery ERP — Panduan Pengguna
+    <span style="margin-left: auto;">Bab 15: Report Center</span>
+  </div>
+
+  <div class="module-header">
+    <div class="module-icon">📄</div>
+    <div class="module-header-text">
+      <div class="module-section-tag">Bab 15 — Laporan</div>
+      <div class="module-title">Report Center</div>
+      <div class="module-desc">Pusat pembuatan dan ekspor laporan operasional, ESG, inventori, dan reklamasi</div>
+    </div>
+  </div>
+
+  <p style="font-size: 12px; line-height: 1.8; margin-bottom: 16px;">
+    Report Center menyediakan berbagai template laporan yang bisa dikustomisasi berdasarkan periode waktu dan parameter yang diinginkan. 
+    Laporan dapat diekspor ke format CSV untuk dibuka di Microsoft Excel.
+  </p>
+
+  <div class="section-heading">Jenis Laporan yang Tersedia</div>
+  <table class="feature-table">
+    <thead>
+      <tr><th>Nama Laporan</th><th>Konten</th><th>Kegunaan</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Inventori Summary</strong></td>
+        <td>Rekap stok bibit semua batch: jumlah, status, lokasi</td>
+        <td>Monitoring stok bulanan</td>
+      </tr>
+      <tr>
+        <td><strong>Transaction Ledger Report</strong></td>
+        <td>Semua transaksi dalam periode tertentu</td>
+        <td>Audit keuangan bibit</td>
+      </tr>
+      <tr>
+        <td><strong>Mortality Report</strong></td>
+        <td>Rekapitulasi kematian bibit per penyebab dan batch</td>
+        <td>Analisis kerugian bibit</td>
+      </tr>
+      <tr>
+        <td><strong>Planting Report</strong></td>
+        <td>Rekap penanaman per blok dan per spesies</td>
+        <td>Laporan kegiatan reklamasi</td>
+      </tr>
+      <tr>
+        <td><strong>Survival Rate Report</strong></td>
+        <td>Tingkat kelangsungan hidup per blok reklamasi</td>
+        <td>Laporan ESG ke regulator</td>
+      </tr>
+      <tr>
+        <td><strong>Reclamation Progress</strong></td>
+        <td>Capaian vs target per blok reklamasi</td>
+        <td>Laporan manajemen reklamasi</td>
+      </tr>
+      <tr>
+        <td><strong>Growth Summary</strong></td>
+        <td>Rekap rata-rata pertumbuhan per spesies</td>
+        <td>Monitoring kualitas bibit</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-heading">Cara Membuat Laporan</div>
+  <div class="steps-list">
+    <div class="step-item">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <div class="step-title">Pilih Jenis Laporan</div>
+        <div class="step-desc">Klik card jenis laporan yang diinginkan dari daftar yang tersedia.</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <div class="step-title">Tentukan Periode & Filter</div>
+        <div class="step-desc">Atur rentang tanggal (dari - sampai) dan filter tambahan yang diperlukan (spesies, blok, dll).</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <div class="step-title">Generate & Export</div>
+        <div class="step-desc">Klik "Generate Report" untuk preview, kemudian klik "Export CSV" untuk mengunduh file yang siap dibuka di Excel.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====================== BAB 16: USER MANAGEMENT ====================== -->
+<div class="content-page page-break">
+  <div class="page-header-strip">
+    <div class="page-header-strip-dot"></div>
+    Nursery ERP — Panduan Pengguna
+    <span style="margin-left: auto;">Bab 16: User Management</span>
+  </div>
+
+  <div class="module-header">
+    <div class="module-icon">👥</div>
+    <div class="module-header-text">
+      <div class="module-section-tag">Bab 16 — Administrasi</div>
+      <div class="module-title">User Management (Manajemen Pengguna)</div>
+      <div class="module-desc">Pengelolaan akun pengguna, hak akses, dan visualisasi matriks RBAC — hanya untuk Admin & Supervisor</div>
+    </div>
+  </div>
+
+  <div class="info-box warning">
+    <div class="info-box-title">⚠️ Akses Terbatas</div>
+    Modul ini hanya dapat diakses oleh pengguna dengan peran <strong>Admin</strong> atau <strong>Supervisor</strong>. 
+    Pengguna dengan peran lain tidak akan melihat menu ini di sidebar.
+  </div>
+
+  <div class="section-heading">Cara Membuat Akun Pengguna Baru</div>
+  <div class="steps-list">
+    <div class="step-item">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <div class="step-title">Klik "Add Account Entry"</div>
+        <div class="step-desc">Tombol di pojok kanan atas halaman User Management (hanya aktif untuk Admin).</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <div class="step-title">Isi Data Pengguna Baru</div>
+        <div class="step-desc">Nama lengkap, email enterprise (@indexim.com), password awal, peran sistem, dan status (Active/Inactive).</div>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <div class="step-title">Simpan & Infokan ke Pengguna</div>
+        <div class="step-desc">Akun langsung aktif. Sampaikan email dan password ke pengguna baru. Minta ganti password pertama kali login.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-heading">Peran Pengguna</div>
+  <table class="feature-table">
+    <thead>
+      <tr><th>Peran</th><th>Deskripsi</th><th>Level Akses</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge red">Admin</span></td>
+        <td>Administrator sistem penuh</td>
+        <td>Seluruh modul + hapus data + kelola user</td>
+      </tr>
+      <tr>
+        <td><span class="badge yellow">Supervisor</span></td>
+        <td>Supervisor lapangan/operasional</td>
+        <td>Baca + tambah + edit + approve opname</td>
+      </tr>
+      <tr>
+        <td><span class="badge blue">Environment Officer</span></td>
+        <td>Petugas lingkungan/nurseri</td>
+        <td>Baca + tambah + edit (tidak bisa hapus)</td>
+      </tr>
+      <tr>
+        <td><span class="badge gray">Viewer</span></td>
+        <td>Pemirsa/manajemen eksekutif</td>
+        <td>Hanya baca semua modul operasional</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-heading">Matriks RBAC (Role-Based Access Control)</div>
+  <p style="font-size: 12px; line-height: 1.6;">Tampilan matriks di sisi kanan halaman menunjukkan grid visual hak akses setiap peran terhadap masing-masing modul sistem. Gunakan ini sebagai referensi saat menentukan peran untuk pengguna baru.</p>
+</div>
+
+<!-- ====================== BAB 17: AUDIT TRAIL ====================== -->
+<div class="content-page page-break">
+  <div class="page-header-strip">
+    <div class="page-header-strip-dot"></div>
+    Nursery ERP — Panduan Pengguna
+    <span style="margin-left: auto;">Bab 17: Audit Trail</span>
+  </div>
+
+  <div class="module-header">
+    <div class="module-icon">🛡️</div>
+    <div class="module-header-text">
+      <div class="module-section-tag">Bab 17 — Administrasi</div>
+      <div class="module-title">Security Audit Trail</div>
+      <div class="module-desc">Log keamanan lengkap: rekaman seluruh aktivitas pengguna di sistem secara kronologis</div>
+    </div>
+  </div>
+
+  <div class="info-box warning">
+    <div class="info-box-title">⚠️ Akses Terbatas</div>
+    Modul Audit Trail hanya dapat diakses oleh <strong>Admin</strong> dan <strong>Supervisor</strong>.
+  </div>
+
+  <p style="font-size: 12px; line-height: 1.8; margin: 16px 0;">
+    Setiap aksi yang dilakukan pengguna di sistem — mulai dari login, tambah data, edit, hapus, hingga logout — 
+    dicatat secara otomatis di Audit Trail. Log ini tidak dapat dihapus dan digunakan untuk keperluan investigasi dan audit kepatuhan.
+  </p>
+
+  <div class="section-heading">Informasi yang Dicatat di Audit Trail</div>
+  <table class="feature-table">
+    <thead>
+      <tr><th>Field</th><th>Keterangan</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Timestamp</strong></td><td>Tanggal dan waktu aksi terjadi (format ISO 8601)</td></tr>
+      <tr><td><strong>User</strong></td><td>Nama pengguna yang melakukan aksi</td></tr>
+      <tr><td><strong>Modul</strong></td><td>Modul sistem yang terlibat (auth, inventory, ledger, dll)</td></tr>
+      <tr><td><strong>Aksi</strong></td><td>Jenis aksi: LOGIN, LOGOUT, INSERT, UPDATE, DELETE</td></tr>
+      <tr><td><strong>Record ID</strong></td><td>ID record yang terpengaruh oleh aksi (jika ada)</td></tr>
+      <tr><td><strong>Data Lama</strong></td><td>Data sebelum perubahan (untuk aksi UPDATE dan DELETE)</td></tr>
+      <tr><td><strong>Data Baru</strong></td><td>Data setelah perubahan (untuk aksi INSERT dan UPDATE)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="section-heading">Cara Membaca Log Audit</div>
+  <ul style="font-size: 12px; line-height: 1.8; padding-left: 20px;">
+    <li>Log diurutkan dari yang <strong>terbaru</strong> (terbawah ke teratas)</li>
+    <li>Gunakan <strong>filter tanggal</strong> untuk mempersempit pencarian ke periode tertentu</li>
+    <li>Gunakan <strong>filter pengguna</strong> untuk melacak aktivitas user spesifik</li>
+    <li>Gunakan <strong>filter modul</strong> untuk melihat log dari satu modul tertentu</li>
+    <li>Klik baris log untuk melihat detail data lengkap (before/after)</li>
+  </ul>
+
+  <div class="info-box danger">
+    <div class="info-box-title">🚨 Keamanan Penting</div>
+    Log Audit Trail bersifat <strong>read-only</strong> dan tidak dapat dimodifikasi oleh siapapun, termasuk Admin. 
+    Jika ditemukan aktivitas mencurigakan (login dari IP tidak dikenal, penghapusan data masif), segera laporkan ke SIAM.
+  </div>
+
+  <!-- Reset Demo Data -->
+  <div class="section-heading" style="margin-top: 36px;">Fitur Reset Demo Data</div>
+  <p style="font-size: 12px; line-height: 1.6;">Fitur ini tersedia di menu profil (klik avatar → "Reset Demo Data"). Fitur ini akan <strong>menghapus semua data manual</strong> dan me-restore database ke kondisi awal (data dari Excel 2026). Hanya gunakan untuk keperluan pengujian sistem, bukan di lingkungan produksi.</p>
+
+  <div class="info-box danger">
+    <div class="info-box-title">🚨 PERINGATAN KERAS</div>
+    Klik "Reset Demo Data" akan menghapus SELURUH perubahan manual yang telah dilakukan. Aksi ini tidak dapat dibatalkan. Pastikan sudah melakukan export CSV sebelum melakukan reset.
+  </div>
+
+  <!-- Closing -->
+  <div style="margin-top: 50px; padding: 30px; background: linear-gradient(135deg, #064e3b, #065f46); border-radius: 16px; color: white; text-align: center;">
+    <div style="font-size: 28px; margin-bottom: 12px;">🌱</div>
+    <div style="font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 8px;">Selesai — Panduan Pengguna Nursery ERP</div>
+    <div style="font-size: 11px; opacity: 0.7; line-height: 1.6;">
+      Dokumen ini mencakup 14 modul sistem Nursery ERP Indexim Coal Mining.<br>
+      Untuk pertanyaan teknis, hubungi tim IT di <strong>it.support@indexim.com</strong><br>
+      Untuk pertanyaan operasional, hubungi Supervisor Nurseri.<br><br>
+      <strong>DOKUMEN INTERNAL — REVISI 2026</strong>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Auto print button (only shown on screen, not in print)
+  window.onload = function() {
+    const printBtn = document.createElement('div');
+    printBtn.style.cssText = `
+      position: fixed; bottom: 30px; right: 30px; z-index: 9999;
+      background: #166534; color: white; border: none; border-radius: 50px;
+      padding: 14px 28px; font-family: Inter, sans-serif; font-weight: 700;
+      font-size: 14px; cursor: pointer; box-shadow: 0 8px 24px rgba(22,101,52,0.4);
+      display: flex; align-items: center; gap: 10px;
+    `;
+    printBtn.innerHTML = '🖨️ Cetak / Save PDF';
+    printBtn.onclick = () => window.print();
+    document.body.appendChild(printBtn);
+
+    // Hide button when printing
+    const style = document.createElement('style');
+    style.textContent = '@media print { [style*="position: fixed"] { display: none !important; } }';
+    document.head.appendChild(style);
+  };
+</script>
+</body>
+</html>

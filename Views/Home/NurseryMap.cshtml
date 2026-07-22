@@ -1,0 +1,129 @@
+@model List<Nursari.Models.NurseryPlotViewModel>
+@{
+    ViewData["Title"] = "Visual Plot Map";
+}
+
+<style>
+    .nursery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .plot-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius-md);
+        padding: 20px;
+        box-shadow: var(--shadow-sm);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .plot-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .plot-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    .plot-code {
+        font-family: var(--font-title);
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--text-main);
+    }
+
+    .plot-utilization {
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .plot-bar {
+        height: 6px;
+        width: 100%;
+        background: var(--border-color);
+        border-radius: 3px;
+        overflow: hidden;
+        margin-bottom: 12px;
+    }
+
+    .plot-fill {
+        height: 100%;
+        border-radius: 3px;
+    }
+
+    .plot-detail {
+        font-size: 12px;
+        color: var(--text-light);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .plot-detail span strong {
+        color: var(--text-main);
+    }
+
+    /* Util classes */
+    .plot-full .plot-fill { background: var(--critical-red); }
+    .plot-full .plot-utilization { color: var(--critical-red); }
+    
+    .plot-medium .plot-fill { background: var(--warning-yellow); }
+    .plot-medium .plot-utilization { color: var(--warning-yellow); }
+    
+    .plot-empty .plot-fill { background: var(--success-green); }
+    .plot-empty .plot-utilization { color: var(--success-green); }
+</style>
+
+<div class="view-header">
+    <div class="view-title-wrap">
+        <h1>Visual Plot Map</h1>
+        <p>Kapasitas aktual dan tata letak bedengan nurseri pembibitan secara real-time</p>
+    </div>
+</div>
+
+<div class="dashboard-card col-12" style="background: transparent; border: none; padding: 0; box-shadow: none;">
+    <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 10px;">
+        <div style="display: flex; align-items: center; gap: 6px; font-size: 12px;">
+            <span style="height: 12px; width: 12px; border-radius: 3px; background: var(--success-green); display: inline-block;"></span>
+            <span>Kapasitas Rendah (&le;50%)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px; font-size: 12px;">
+            <span style="height: 12px; width: 12px; border-radius: 3px; background: var(--warning-yellow); display: inline-block;"></span>
+            <span>Kapasitas Sedang (50% - 90%)</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px; font-size: 12px;">
+            <span style="height: 12px; width: 12px; border-radius: 3px; background: var(--critical-red); display: inline-block;"></span>
+            <span>Kapasitas Penuh (&ge;90%)</span>
+        </div>
+    </div>
+
+    <div class="nursery-grid">
+        @foreach (var plot in Model)
+        {
+            <div class="plot-card @plot.StatusClass">
+                <div class="plot-header">
+                    <span class="plot-code">@plot.Code</span>
+                    <span class="plot-utilization">@plot.UtilizationRate.ToString("F0")%</span>
+                </div>
+                <div class="plot-bar">
+                    <div class="plot-fill" style="width: @(plot.UtilizationRate > 100 ? 100 : plot.UtilizationRate)%"></div>
+                </div>
+                <div class="plot-detail">
+                    <span>Nama: <strong>@plot.Name</strong></span>
+                    <span>Kapasitas: <strong>@plot.Capacity.ToString("N0")</strong></span>
+                    <span>Isi Aktual: <strong>@plot.CurrentCount.ToString("N0")</strong></span>
+                    <span>Lokasi: <span style="font-size: 11px;">@plot.Location</span></span>
+                </div>
+            </div>
+        }
+    </div>
+</div>

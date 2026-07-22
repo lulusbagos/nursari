@@ -1,0 +1,70 @@
+@model List<Nursari.Models.AuditTrail>
+@{
+    ViewData["Title"] = "Audit Trail";
+}
+
+<div class="view-header">
+    <div class="view-title-wrap">
+        <h1>Audit Trail</h1>
+        <p>Log audit aktivitas operasional dan modifikasi data dalam sistem database</p>
+    </div>
+</div>
+
+<div class="dashboard-card col-12">
+    <div class="card-header">
+        <span class="card-title">Log Audit Aktivitas Database</span>
+    </div>
+    <div class="table-wrapper">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Waktu (UTC)</th>
+                    <th>Nama User</th>
+                    <th>Modul</th>
+                    <th>Aktivitas</th>
+                    <th>Nilai Sebelum</th>
+                    <th>Nilai Sesudah</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model == null || !Model.Any())
+                {
+                    <tr>
+                        <td colspan="6" style="text-align: center; color: var(--text-muted);">Belum ada riwayat aktivitas tercatat. Silakan lakukan transaksi masuk/keluar atau login kembali.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td style="font-family: monospace; font-size: 11px;">@item.Timestamp</td>
+                            <td style="font-weight: bold;">@item.User</td>
+                            <td><span class="badge gray">@item.Module</span></td>
+                            <td>
+                                @if (item.Activity == "INSERT" || item.Activity == "LOGIN")
+                                {
+                                    <span class="badge green">@item.Activity</span>
+                                }
+                                else if (item.Activity == "UPDATE")
+                                {
+                                    <span class="badge yellow">@item.Activity</span>
+                                }
+                                else if (item.Activity == "DELETE" || item.Activity == "LOGOUT")
+                                {
+                                    <span class="badge red">@item.Activity</span>
+                                }
+                                else
+                                {
+                                    <span class="badge gray">@item.Activity</span>
+                                }
+                            </td>
+                            <td style="font-size: 11px; font-family: monospace; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@item.BeforeValue</td>
+                            <td style="font-size: 11px; font-family: monospace; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">@item.AfterValue</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

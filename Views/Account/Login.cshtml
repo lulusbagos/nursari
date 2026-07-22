@@ -1,0 +1,104 @@
+@model Nursari.Models.User
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Nursery Management System - Login</title>
+    
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="margin: 0; padding: 0; height: 100vh; overflow: hidden;">
+
+    <!-- ================= AUTH/LOGIN VIEW ================= -->
+    <div id="login-wrapper">
+        <video autoplay loop muted playsinline id="login-video-bg">
+            <source src="~/video_login.mp4" type="video/mp4">
+        </video>
+        <div class="login-overlay"></div>
+        <div class="login-card">
+            <div class="login-header">
+                <img src="~/logo_nursari.png" alt="Nursari Logo" class="login-logo-img">
+                <div class="login-divider-line">
+                    <span>NURSERY SISTEM TERINTEGRASI</span>
+                </div>
+            </div>
+            
+            <form asp-controller="Account" asp-action="Login" method="post" id="login-form">
+                <div asp-validation-summary="ModelOnly" style="color: var(--critical-red); font-size: 12px; margin-bottom: 12px; text-align: center;"></div>
+
+                <div class="form-group">
+                    <div class="login-input-wrapper">
+                        <i class="fa-solid fa-user login-input-icon"></i>
+                        <input type="text" name="email" class="form-input" placeholder="Username / Email" required autofocus>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="login-input-wrapper">
+                        <i class="fa-solid fa-lock login-input-icon"></i>
+                        <input type="password" id="login-password" name="password" class="form-input" placeholder="Kata Sandi" required>
+                        <i class="fa-solid fa-eye password-toggle" id="toggle-pwd-icon"></i>
+                    </div>
+                </div>
+                
+                <div class="login-options">
+                    <label class="remember-me">
+                        <input type="checkbox" name="rememberMe" value="true"> Remember Me
+                    </label>
+                    <span class="forgot-password" id="forgot-password-link">Forgot Password?</span>
+                </div>
+                
+                <button type="submit" class="btn btn-login">
+                    <span>MASUK</span>
+                    <div class="btn-login-arrow-wrap">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </button>
+            </form>
+
+            <div class="login-footer-dev">
+                <div class="footer-gold-ornament">
+                    <i class="fa-solid fa-leaf"></i>
+                    <i class="fa-solid fa-seedling"></i>
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+                <p class="dev-by">Developed and Maintained by</p>
+                <p class="dev-dept">System Integration Departement PT INDEXIM COALINDO</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password visibility toggle script -->
+    <script>
+        const pwdToggle = document.getElementById("toggle-pwd-icon");
+        if (pwdToggle) {
+            pwdToggle.addEventListener("click", function () {
+                const pwdField = document.getElementById("login-password");
+                if (pwdField.type === "password") {
+                    pwdField.type = "text";
+                    pwdToggle.classList.replace("fa-eye", "fa-eye-slash");
+                } else {
+                    pwdField.type = "password";
+                    pwdToggle.classList.replace("fa-eye-slash", "fa-eye");
+                }
+            });
+        }
+
+        const forgotLink = document.getElementById("forgot-password-link");
+        if (forgotLink) {
+            forgotLink.addEventListener("click", function () {
+                alert("Reset Kata Sandi\n\nUntuk alasan keamanan, pemulihan akun harus dilakukan melalui tim System Integration Departement PT INDEXIM COALINDO.\n\nAkun bawaan:\nEmail: admin@indexim.com / ayla\nSandi: admin123 / Ayla");
+            });
+        }
+    </script>
+</body>
+</html>

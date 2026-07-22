@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise Nursery Management System - Indexim Coal Mining</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- ================= AUTH/LOGIN VIEW ================= -->
+  <div id="login-wrapper">
+    <video autoplay loop muted playsinline id="login-video-bg">
+      <source src="video%20login.mp4" type="video/mp4">
+    </video>
+    <div class="login-overlay"></div>
+    <div class="login-card">
+      <div class="login-header">
+        <img src="logo nursari.png" alt="Nursari Logo" class="login-logo-img">
+        <div class="login-divider-line">
+          <span>NURSERY SISTEM TERINTEGRASI</span>
+        </div>
+      </div>
+      
+      <form id="login-form">
+        <div class="form-group">
+          <div class="login-input-wrapper">
+            <i class="fa-solid fa-user login-input-icon"></i>
+            <input type="text" id="login-email" class="form-input" placeholder="Username" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <div class="login-input-wrapper">
+            <i class="fa-solid fa-lock login-input-icon"></i>
+            <input type="password" id="login-password" class="form-input" placeholder="Kata Sandi" required>
+            <i class="fa-solid fa-eye password-toggle" id="toggle-pwd-icon"></i>
+          </div>
+        </div>
+        
+        <div class="login-options">
+          <label class="remember-me">
+            <input type="checkbox" id="remember-me"> Remember Me
+          </label>
+          <span class="forgot-password" id="forgot-password-link">Forgot Password?</span>
+        </div>
+        
+        <button type="submit" class="btn btn-login">
+          <span>MASUK</span>
+          <div class="btn-login-arrow-wrap">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+        </button>
+      </form>
+
+      <div class="login-footer-dev">
+        <div class="footer-gold-ornament">
+          <i class="fa-solid fa-leaf"></i>
+          <i class="fa-solid fa-seedling"></i>
+          <i class="fa-solid fa-leaf"></i>
+        </div>
+        <p class="dev-by">Developed and Maintained by</p>
+        <p class="dev-dept">System Integration Departement PT INDEXIM COALINDO</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MAIN SYSTEM WRAPPER ================= -->
+  <div id="app-container" style="display: none;">
+    
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <i class="fa-solid fa-seedling" style="color: var(--success-green);"></i>
+          <span>NURSERY SYS</span>
+        </div>
+        <div class="sidebar-toggle" id="sidebar-close-btn" style="display: none;">
+          <i class="fa-solid fa-chevron-left"></i>
+        </div>
+      </div>
+      
+      <div class="sidebar-menu">
+        <div class="menu-label">Main Core</div>
+        <div class="menu-item active" data-view="dashboard">
+          <i class="fa-solid fa-chart-line"></i> Executive Dashboard
+        </div>
+        
+        <div class="menu-label">Operations</div>
+        <div class="menu-item" data-view="inventory">
+          <i class="fa-solid fa-warehouse"></i> Seedling Inventory
+        </div>
+        <div class="menu-item" data-view="ledger">
+          <i class="fa-solid fa-list-ol"></i> Transaction Ledger
+        </div>
+        <div class="menu-item" data-view="nurserymap">
+          <i class="fa-solid fa-map-location-dot"></i> Visual Plot Map
+        </div>
+        <div class="menu-item" data-view="monitoring">
+          <i class="fa-solid fa-gauge-high"></i> Growth Monitoring
+        </div>
+        <div class="menu-item" data-view="mortality">
+          <i class="fa-solid fa-skull-crossbones"></i> Mortality Records
+        </div>
+        
+        <div class="menu-label">Planning & ESG</div>
+        <div class="menu-item" data-view="stockopname">
+          <i class="fa-solid fa-clipboard-check"></i> Stock Opname
+        </div>
+        <div class="menu-item" data-view="planting">
+          <i class="fa-solid fa-route"></i> Planting Log
+        </div>
+        <div class="menu-item" data-view="survival">
+          <i class="fa-solid fa-percent"></i> Survival Analysis
+        </div>
+        <div class="menu-item" data-view="reclamation">
+          <i class="fa-solid fa-mountain"></i> Reclamation Targets
+        </div>
+        
+        <div class="menu-label">Reports & Config</div>
+        <div class="menu-item" data-view="report">
+          <i class="fa-solid fa-file-invoice-dollar"></i> Report Center
+        </div>
+        <div class="menu-item" data-view="masterdata">
+          <i class="fa-solid fa-database"></i> Master Registry
+        </div>
+        <div class="menu-item" data-view="usermanagement">
+          <i class="fa-solid fa-users-gear"></i> User Matrix
+        </div>
+        <div class="menu-item" data-view="audittrail">
+          <i class="fa-solid fa-shield-halved"></i> Audit Trail
+        </div>
+      </div>
+      
+      <div class="sidebar-footer">
+        <i class="fa-solid fa-user-shield"></i>
+        <div style="flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+          <span id="current-user-role-label">Officer</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN RIGHT VIEW WRAPPER -->
+    <main class="main-wrapper">
+      
+      <!-- TOP NAVIGATION BAR -->
+      <nav class="navbar">
+        <div class="navbar-left">
+          <div class="sidebar-toggle" id="sidebar-toggle-btn">
+            <i class="fa-solid fa-bars"></i>
+          </div>
+          <div class="breadcrumb">
+            <span>Enterprise</span>
+            <span class="breadcrumb-separator"><i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i></span>
+            <span id="breadcrumb-active-view" class="breadcrumb-current">Dashboard</span>
+          </div>
+        </div>
+        
+        <div class="navbar-right">
+          <div class="nav-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="global-search-input" placeholder="Search batch, area, logs...">
+          </div>
+          
+          <div class="nav-actions">
+            <!-- Theme Toggle -->
+            <div class="action-icon" id="theme-toggle-btn" title="Toggle Dark/Light Mode">
+              <i class="fa-solid fa-moon"></i>
+            </div>
+            
+            <!-- Notifications -->
+            <div class="action-icon" id="notifications-icon" title="Notifications Center">
+              <i class="fa-solid fa-bell"></i>
+              <span class="badge" id="alert-badge-count">0</span>
+              <!-- Notifications Dropdown -->
+              <div class="dropdown-menu" id="notifications-dropdown" style="right: 0; min-width: 280px; padding: 10px;">
+                <div style="font-weight: bold; margin-bottom: 8px; font-size: 13px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;">Alert Notification Center</div>
+                <div id="notifications-dropdown-list" style="max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+                  <!-- Dynamically populated alerts -->
+                </div>
+              </div>
+            </div>
+            
+            <!-- Profile dropdown -->
+            <div class="user-profile-nav" id="profile-menu-nav">
+              <div class="user-avatar" id="navbar-avatar-text">AD</div>
+              <div class="user-info">
+                <span class="user-name" id="navbar-username">Admin</span>
+                <span class="user-role" id="navbar-userrole">Administrator</span>
+              </div>
+              <i class="fa-solid fa-caret-down" style="font-size: 11px; margin-left: 5px; color: var(--text-light);"></i>
+              
+              <!-- Profile Dropdown Menu -->
+              <div class="dropdown-menu" id="profile-dropdown">
+                <div class="dropdown-item" id="btn-show-my-profile">
+                  <i class="fa-solid fa-user"></i> My Profile
+                </div>
+                <div class="dropdown-item" id="btn-run-demo-seeding">
+                  <i class="fa-solid fa-arrows-spin"></i> Reset Demo Data
+                </div>
+                <div class="dropdown-divider"></div>
+                <div class="dropdown-item" id="btn-logout-submit" style="color: var(--critical-red);">
+                  <i class="fa-solid fa-right-from-bracket"></i> Terminate Session
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      
+      <!-- MAIN BODY CONTAINER -->
+      <div class="content-body" id="main-content-view-body">
+        
+        <!-- SKELETON LOADER -->
+        <div id="skeleton-loader-overlay" style="display: none; display: flex; flex-direction: column; gap: 20px;">
+          <div class="kpi-grid">
+            <div class="skeleton-loader skeleton-card"></div>
+            <div class="skeleton-loader skeleton-card"></div>
+            <div class="skeleton-loader skeleton-card"></div>
+            <div class="skeleton-loader skeleton-card"></div>
+          </div>
+          <div class="skeleton-loader" style="height: 300px; width: 100%;"></div>
+        </div>
+
+        <!-- ================= EXECUTIVE DASHBOARD VIEW ================= -->
+        <section id="view-dashboard" class="app-view active">
+          <!-- Dynamically Renders in dashboard.js -->
+        </section>
+
+        <!-- ================= SEEDLING INVENTORY VIEW ================= -->
+        <section id="view-inventory" class="app-view">
+          <!-- Dynamically Renders in inventory.js -->
+        </section>
+
+        <!-- ================= TRANSACTION LEDGER VIEW ================= -->
+        <section id="view-ledger" class="app-view">
+          <!-- Dynamically Renders in ledger.js -->
+        </section>
+
+        <!-- ================= VISUAL NURSERY MAP VIEW ================= -->
+        <section id="view-nurserymap" class="app-view">
+          <!-- Dynamically Renders in nurserymap.js -->
+        </section>
+
+        <!-- ================= GROWTH MONITORING VIEW ================= -->
+        <section id="view-monitoring" class="app-view">
+          <!-- Dynamically Renders in monitoring.js -->
+        </section>
+
+        <!-- ================= MORTALITY VIEW ================= -->
+        <section id="view-mortality" class="app-view">
+          <!-- Dynamically Renders in mortality.js -->
+        </section>
+
+        <!-- ================= STOCK OPNAME VIEW ================= -->
+        <section id="view-stockopname" class="app-view">
+          <!-- Dynamically Renders in stockopname.js -->
+        </section>
+
+        <!-- ================= PLANTING LOG VIEW ================= -->
+        <section id="view-planting" class="app-view">
+          <!-- Dynamically Renders in planting.js -->
+        </section>
+
+        <!-- ================= SURVIVAL ANALYSIS VIEW ================= -->
+        <section id="view-survival" class="app-view">
+          <!-- Dynamically Renders in survival.js -->
+        </section>
+
+        <!-- ================= RECLAMATION TARGETS VIEW ================= -->
+        <section id="view-reclamation" class="app-view">
+          <!-- Dynamically Renders in reclamation.js -->
+        </section>
+
+        <!-- ================= REPORT CENTER VIEW ================= -->
+        <section id="view-report" class="app-view">
+          <!-- Dynamically Renders in report.js -->
+        </section>
+
+        <!-- ================= MASTER REGISTRY VIEW ================= -->
+        <section id="view-masterdata" class="app-view">
+          <!-- Dynamically Renders in masterdata.js -->
+        </section>
+
+        <!-- ================= USER MATRIX VIEW ================= -->
+        <section id="view-usermanagement" class="app-view">
+          <!-- Dynamically Renders in usermanagement.js -->
+        </section>
+
+        <!-- ================= AUDIT TRAIL VIEW ================= -->
+        <section id="view-audittrail" class="app-view">
+          <!-- Dynamically Renders in audittrail.js -->
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ================= GLOBAL REUSABLE MODALS ================= -->
+  <div class="modal-overlay" id="global-modal-overlay">
+    <div class="modal-container" id="global-modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title" id="global-modal-title">Standard Dialog</h3>
+        <i class="fa-solid fa-xmark modal-close" id="global-modal-close-btn"></i>
+      </div>
+      <div class="modal-content" id="global-modal-content">
+        <!-- Forms dynamically injected -->
+      </div>
+      <div class="modal-footer" id="global-modal-footer">
+        <button type="button" class="btn btn-outline" id="global-modal-cancel-btn">Cancel</button>
+        <button type="button" class="btn btn-primary" id="global-modal-save-btn">Confirm Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= GLOBAL FLOATING TOASTS ================= -->
+  <div class="toast-container" id="global-toast-container"></div>
+
+  <!-- ================= CORE SCRIPTS ================= -->
+  <script src="js/initial_data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  
+  <!-- ================= MODULE MODULE SCRIPTS ================= -->
+  <script src="js/dashboard.js"></script>
+  <script src="js/masterdata.js"></script>
+  <script src="js/inventory.js"></script>
+  <script src="js/ledger.js"></script>
+  <script src="js/nurserymap.js"></script>
+  <script src="js/monitoring.js"></script>
+  <script src="js/mortality.js"></script>
+  <script src="js/stockopname.js"></script>
+  <script src="js/planting.js"></script>
+  <script src="js/survival.js"></script>
+  <script src="js/reclamation.js"></script>
+  <script src="js/report.js"></script>
+  <script src="js/usermanagement.js"></script>
+  <script src="js/audittrail.js"></script>
+
+</body>
+</html>
