@@ -42,15 +42,15 @@
                             <td style="font-weight: bold;">@item.User</td>
                             <td><span class="badge gray">@item.Module</span></td>
                             <td>
-                                @if (item.Activity == "INSERT" || item.Activity == "LOGIN")
+                                @if (item.Activity == "INSERT" || item.Activity == "Create" || item.Activity == "LOGIN")
                                 {
                                     <span class="badge green">@item.Activity</span>
                                 }
-                                else if (item.Activity == "UPDATE")
+                                else if (item.Activity == "UPDATE" || item.Activity == "Edit")
                                 {
                                     <span class="badge yellow">@item.Activity</span>
                                 }
-                                else if (item.Activity == "DELETE" || item.Activity == "LOGOUT")
+                                else if (item.Activity == "DELETE" || item.Activity == "Delete" || item.Activity == "LOGOUT")
                                 {
                                     <span class="badge red">@item.Activity</span>
                                 }
