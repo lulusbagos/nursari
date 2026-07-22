@@ -22,6 +22,6 @@ namespace Nursari.Models
         public int QuantityDead { get; set; }
 
         [Column("cause")]
-        public string Cause { get; set; } = string.Empty;
+        public string? Cause { get; set; }
     }
 }

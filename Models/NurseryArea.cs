@@ -22,9 +22,9 @@ namespace Nursari.Models
         public int Capacity { get; set; }
 
         [Column("location")]
-        public string Location { get; set; } = string.Empty;
+        public string? Location { get; set; }
 
         [Column("description")]
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; }
     }
 }

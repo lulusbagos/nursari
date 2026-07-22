@@ -15,7 +15,7 @@ namespace Nursari.Models
         public string PlantingNumber { get; set; } = string.Empty;
 
         [Column("monitoring_date")]
-        public string MonitoringDate { get; set; } = string.Empty;
+        public string? MonitoringDate { get; set; }
 
         [Column("live_seedlings")]
         public int LiveSeedlings { get; set; }

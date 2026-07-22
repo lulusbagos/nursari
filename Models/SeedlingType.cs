@@ -19,12 +19,12 @@ namespace Nursari.Models
         public string Name { get; set; } = string.Empty;
 
         [Column("category")]
-        public string Category { get; set; } = string.Empty;
+        public string? Category { get; set; }
 
         [Column("scientific_name")]
-        public string ScientificName { get; set; } = string.Empty;
+        public string? ScientificName { get; set; }
 
         [Column("description")]
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; }
     }
 }

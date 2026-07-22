@@ -19,10 +19,10 @@ namespace Nursari.Models
         public string SeedlingTypeId { get; set; } = string.Empty;
 
         [Column("supplier_id")]
-        public string SupplierId { get; set; } = string.Empty;
+        public string? SupplierId { get; set; }
 
         [Column("date_received")]
-        public string DateReceived { get; set; } = string.Empty;
+        public string? DateReceived { get; set; }
 
         [Column("quantity")]
         public int Quantity { get; set; }
@@ -37,9 +37,9 @@ namespace Nursari.Models
         public double Height { get; set; }
 
         [Column("nursery_area_id")]
-        public string NurseryAreaId { get; set; } = string.Empty;
+        public string? NurseryAreaId { get; set; }
 
         [Column("status")]
-        public string Status { get; set; } = string.Empty;
+        public string? Status { get; set; }
     }
 }

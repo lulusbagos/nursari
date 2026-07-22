@@ -22,6 +22,6 @@ namespace Nursari.Models
         public double Size { get; set; }
 
         [Column("coordinates")]
-        public string Coordinates { get; set; } = string.Empty;
+        public string? Coordinates { get; set; }
     }
 }

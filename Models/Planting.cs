@@ -29,12 +29,12 @@ namespace Nursari.Models
         public int Quantity { get; set; }
 
         [Column("pic")]
-        public string Pic { get; set; } = string.Empty;
+        public string? Pic { get; set; }
 
         [Column("coordinates")]
-        public string Coordinates { get; set; } = string.Empty;
+        public string? Coordinates { get; set; }
 
         [Column("status")]
-        public string Status { get; set; } = string.Empty;
+        public string? Status { get; set; }
     }
 }

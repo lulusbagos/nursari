@@ -22,18 +22,18 @@ namespace Nursari.Models
         public double Height { get; set; }
 
         [Column("diameter")]
-        public string Diameter { get; set; } = string.Empty;
+        public string? Diameter { get; set; }
 
         [Column("leaf_condition")]
-        public string LeafCondition { get; set; } = string.Empty;
+        public string? LeafCondition { get; set; }
 
         [Column("health_score")]
         public double HealthScore { get; set; }
 
         [Column("notes")]
-        public string Notes { get; set; } = string.Empty;
+        public string? Notes { get; set; }
 
         [Column("photo")]
-        public string Photo { get; set; } = string.Empty;
+        public string? Photo { get; set; }
     }
 }

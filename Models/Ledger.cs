@@ -36,6 +36,6 @@ namespace Nursari.Models
         public int Balance { get; set; }
 
         [Column("remarks")]
-        public string Remarks { get; set; } = string.Empty;
+        public string? Remarks { get; set; }
     }
 }

@@ -18,16 +18,16 @@ namespace Nursari.Models
         public string DateCreated { get; set; } = string.Empty;
 
         [Column("date_completed")]
-        public string DateCompleted { get; set; } = string.Empty;
+        public string? DateCompleted { get; set; }
 
         [Column("status")]
-        public string Status { get; set; } = string.Empty;
+        public string? Status { get; set; }
 
         [Column("created_by")]
-        public string CreatedBy { get; set; } = string.Empty;
+        public string? CreatedBy { get; set; }
 
         [Column("approved_by")]
-        public string ApprovedBy { get; set; } = string.Empty;
+        public string? ApprovedBy { get; set; }
 
         [Required]
         [Column("batch_number")]
