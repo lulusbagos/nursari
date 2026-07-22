@@ -1,0 +1,127 @@
+@model Nursari.Models.Inventory
+@{
+    ViewData["Title"] = "Tambah Batch Inventori Baru";
+}
+
+<div class="view-header">
+    <div class="view-title-wrap">
+        <h1>Tambah Batch Inventori Baru</h1>
+        <p>Penerimaan batch bibit tanaman baru dan pemetaan area plot nurseri</p>
+    </div>
+    <div>
+        <a class="btn btn-login" asp-action="Inventory" style="background: var(--text-light); color: white; display: inline-flex; align-items: center; gap: 5px;">
+            <i class="fa-solid fa-arrow-left"></i> Kembali ke Inventori
+        </a>
+    </div>
+</div>
+
+<div class="dashboard-card col-8" style="margin: 0 auto; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color);">
+    <div class="card-header" style="background: linear-gradient(135deg, var(--primary-green), #10b981); color: white; padding: 20px;">
+        <span class="card-title" style="color: white; font-weight: bold; font-size: 16px;"><i class="fa-solid fa-seedling"></i> Form Isian Penerimaan Batch Bibit</span>
+    </div>
+    
+    <form asp-action="CreateInventory" method="post" style="padding: 25px; display: flex; flex-direction: column; gap: 20px;">
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+            <!-- Batch Number -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="BatchNumber" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Batch Number <span style="color: red;">*</span></label>
+                <input type="text" id="BatchNumber" asp-for="BatchNumber" class="form-control" placeholder="Contoh: BCH-202607-001" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px; font-family: monospace;" />
+            </div>
+
+            <!-- Date Received -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="DateReceived" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Tanggal Diterima <span style="color: red;">*</span></label>
+                <input type="date" id="DateReceived" asp-for="DateReceived" class="form-control" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;" />
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+            <!-- Seedling Type -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="SeedlingTypeId" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Spesies Bibit <span style="color: red;">*</span></label>
+                <select id="SeedlingTypeId" asp-for="SeedlingTypeId" class="form-control" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;">
+                    <option value="">-- Pilih Jenis Tanaman --</option>
+                    @if (ViewBag.SeedlingTypes != null)
+                    {
+                        foreach (var item in ViewBag.SeedlingTypes)
+                        {
+                            <option value="@item.Id">@item.Name (@item.Code)</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <!-- Supplier -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="SupplierId" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Pemasok (Supplier) <span style="color: red;">*</span></label>
+                <select id="SupplierId" asp-for="SupplierId" class="form-control" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;">
+                    <option value="">-- Pilih Supplier --</option>
+                    @if (ViewBag.Suppliers != null)
+                    {
+                        foreach (var item in ViewBag.Suppliers)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+            <!-- Quantity -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="Quantity" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Jumlah Bibit <span style="color: red;">*</span></label>
+                <input type="number" id="Quantity" asp-for="Quantity" class="form-control" placeholder="0" min="1" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;" />
+            </div>
+
+            <!-- Age -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="Age" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Umur Awal (Bulan) <span style="color: red;">*</span></label>
+                <input type="number" id="Age" asp-for="Age" class="form-control" placeholder="0" min="0" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;" />
+            </div>
+
+            <!-- Height -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="Height" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Tinggi Awal (cm) <span style="color: red;">*</span></label>
+                <input type="number" step="0.1" id="Height" asp-for="Height" class="form-control" placeholder="0.0" min="0" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;" />
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+            <!-- Nursery Area -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="NurseryAreaId" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Lokasi Bedengan (Plot) <span style="color: red;">*</span></label>
+                <select id="NurseryAreaId" asp-for="NurseryAreaId" class="form-control" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;">
+                    <option value="">-- Pilih Plot Bedengan --</option>
+                    @if (ViewBag.NurseryAreas != null)
+                    {
+                        foreach (var item in ViewBag.NurseryAreas)
+                        {
+                            <option value="@item.Id">@item.Name (@item.Code) - Cap: @item.Capacity</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <!-- Status -->
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+                <label for="Status" style="font-size: 13px; font-weight: 600; color: var(--text-main);">Status Awal</label>
+                <select id="Status" asp-for="Status" class="form-control" style="width: 100%; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px;">
+                    <option value="Active">Active</option>
+                    <option value="Siap Tanam">Siap Tanam</option>
+                    <option value="Karantina">Karantina</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; justify-content: flex-end; gap: 15px; border-top: 1px solid var(--border-color); padding-top: 20px; margin-top: 10px;">
+            <a class="btn" asp-action="Inventory" style="background: #ef4444; color: white; display: inline-flex; align-items: center; gap: 5px;">
+                <i class="fa-solid fa-xmark"></i> Batal
+            </a>
+            <button type="submit" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 5px;">
+                <i class="fa-solid fa-save"></i> Simpan Batch
+            </button>
+        </div>
+    </form>
+</div>

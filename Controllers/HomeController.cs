@@ -30,7 +30,7 @@ namespace Nursari.Controllers
             model.AvgSurvivalRate = survivals.Any() ? survivals.Average(s => s.SurvivalRate) : 0.0;
 
             var reclamations = await _context.Reclamations.ToListAsync();
-            model.ReclamationCompletionRate = reclamations.Any() ? reclamations.Average(r => r.CompletionRate) * 100 : 0.0;
+            model.ReclamationCompletionRate = reclamations.Any() ? reclamations.Average(r => r.CompletionRate) : 0.0;
 
             // 2. Species Summary (group by Seedling Type)
             var inventoryGroups = await _context.Inventories
@@ -60,21 +60,39 @@ namespace Nursari.Controllers
             var plantingAreas = await _context.PlantingAreas.ToDictionaryAsync(a => a.Id, a => a.Name);
 
             var areaSurvivals = survivals
-                .Join(plantings, s => s.PlantingNumber, p => p.PlantingNumber, (s, p) => new { p.PlantingAreaId, s.SurvivalRate })
-                .GroupBy(x => x.PlantingAreaId)
-                .Select(g => new { AreaId = g.Key, Rate = g.Average(x => x.SurvivalRate) })
+                .Select(s => {
+                    var planting = plantings.FirstOrDefault(p => p.PlantingNumber == s.PlantingNumber);
+                    string blockId = planting != null ? planting.PlantingAreaId : s.PlantingNumber;
+                    return new { BlockId = blockId, s.SurvivalRate };
+                })
+                .GroupBy(x => x.BlockId)
+                .Select(g => new { BlockId = g.Key, Rate = g.Average(x => x.SurvivalRate) })
                 .ToList();
 
             foreach (var item in areaSurvivals)
             {
-                if (plantingAreas.TryGetValue(item.AreaId, out var areaName))
+                string displayName = plantingAreas.TryGetValue(item.BlockId, out var name) ? name : item.BlockId;
+                if (displayName.StartsWith("PLN-AUDIT-"))
                 {
-                    model.BlockSurvivals.Add(new BlockSurvivalSummary
+                    var parts = displayName.Split('-');
+                    if (parts.Length >= 3)
                     {
-                        BlockName = areaName,
-                        Rate = Math.Round(item.Rate, 1)
-                    });
+                        string dateStr = parts[2];
+                        if (dateStr.Length == 8)
+                        {
+                            displayName = $"Audit {dateStr.Substring(0, 4)}-{dateStr.Substring(4, 2)}-{dateStr.Substring(6, 2)}";
+                        }
+                        else
+                        {
+                            displayName = $"Audit Block ({dateStr})";
+                        }
+                    }
                 }
+                model.BlockSurvivals.Add(new BlockSurvivalSummary
+                {
+                    BlockName = displayName,
+                    Rate = Math.Round(item.Rate, 1)
+                });
             }
             model.BlockSurvivals = model.BlockSurvivals.OrderByDescending(b => b.Rate).Take(5).ToList();
 
@@ -120,7 +138,11 @@ namespace Nursari.Controllers
 
         public async Task<IActionResult> Inventory()
         {
-            var inventories = await _context.Inventories.ToListAsync();
+            // Order by date received descending so the latest data is shown first
+            var inventories = await _context.Inventories
+                .OrderByDescending(i => i.DateReceived)
+                .ToListAsync();
+
             var seedlingTypes = await _context.SeedlingTypes.ToDictionaryAsync(t => t.Id, t => t.Name);
             var suppliers = await _context.Suppliers.ToDictionaryAsync(s => s.Id, s => s.Name);
             var areas = await _context.NurseryAreas.ToDictionaryAsync(a => a.Id, a => a.Name);
@@ -141,6 +163,63 @@ namespace Nursari.Controllers
             }).ToList();
 
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateInventory()
+        {
+            ViewBag.SeedlingTypes = await _context.SeedlingTypes.ToListAsync();
+            ViewBag.Suppliers = await _context.Suppliers.ToListAsync();
+            ViewBag.NurseryAreas = await _context.NurseryAreas.ToListAsync();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateInventory(Inventory model)
+        {
+            if (model == null) return BadRequest();
+
+            // Set dynamic properties
+            model.Id = Guid.NewGuid().ToString("N");
+            model.CurrentQuantity = model.Quantity;
+            if (string.IsNullOrEmpty(model.Status))
+            {
+                model.Status = "Active";
+            }
+
+            // Save new inventory batch
+            _context.Inventories.Add(model);
+
+            // Create automatic ledger entry (Receipt transaction)
+            var ledger = new Ledger
+            {
+                Id = Guid.NewGuid().ToString("N"),
+                TransactionNumber = "TRX-REC-" + DateTime.Now.ToString("yyyyMMdd-HHmmss"),
+                Date = model.DateReceived,
+                Batch = model.BatchNumber,
+                Type = "Receipt",
+                QtyIn = model.Quantity,
+                QtyOut = 0,
+                Balance = model.Quantity,
+                Remarks = "Penerimaan bibit batch baru secara otomatis"
+            };
+            _context.Ledgers.Add(ledger);
+
+            // Record to audit trail
+            var audit = new AuditTrail
+            {
+                Id = Guid.NewGuid().ToString("N"),
+                User = User.Identity?.Name ?? "System",
+                Module = "Inventory",
+                Activity = "Create",
+                BeforeValue = "",
+                AfterValue = $"Batch: {model.BatchNumber}, Qty: {model.Quantity}, Area: {model.NurseryAreaId}",
+                Timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+            };
+            _context.AuditTrails.Add(audit);
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Inventory");
         }
 
         public async Task<IActionResult> Ledger()
